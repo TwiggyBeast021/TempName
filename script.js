@@ -31,18 +31,16 @@ function updateStats() {
   document.getElementById("strength").textContent = playerStats.strength;
   document.getElementById("intelligence").textContent = playerStats.intelligence;
   document.getElementById("speed").textContent = playerStats.speed;
-  document.getElementById("skill1-name").textContent = skills.criticalHit.name;
-  document.getElementById("skill1-level").textContent = skills.criticalHit.level;
-  document.getElementById("skill1-experience").textContent = skills.criticalHit.experience;
-  document.getElementById("skill1-experience-needed").textContent = skills.criticalHit.experienceNeeded;
-  document.getElementById("skill2-name").textContent = skills.dodge.name;
-  document.getElementById("skill2-level").textContent = skills.dodge.level;
-  document.getElementById("skill2-experience").textContent = skills.dodge.experience;
-  document.getElementById("skill2-experience-needed").textContent = skills.dodge.experienceNeeded;
-  document.getElementById("skill3-name").textContent = skills.combat.name;
-  document.getElementById("skill3-level").textContent = skills.combat.level;
-  document.getElementById("skill3-experience").textContent = skills.combat.experience;
-  document.getElementById("skill3-experience-needed").textContent = skills.combat.experienceNeeded;
+  document.getElementById("current-health").textContent = playerStats.currentHealth;
+  document.getElementById("attack-damage").textContent = calculateAttackDamage().toFixed(2);
+  document.getElementById("attack-speed").textContent = calculateAttackSpeed().toFixed(2);
+  document.getElementById("critical-hit-chance").textContent = (getCriticalHitChance() * 100).toFixed(2) + "%";
+  document.getElementById("critical-hit-damage").textContent = calculateCriticalHitDamage().toFixed(2);
+
+  // Update skill progress bars
+  updateSkillProgressBar("skill1", skills.criticalHit);
+  updateSkillProgressBar("skill2", skills.dodge);
+  updateSkillProgressBar("skill3", skills.combat);
 
   // Update experience bar
   const experienceBar = document.getElementById("experience-bar");
@@ -77,6 +75,9 @@ function openTab(tabName) {
   // Show the selected tab and activate its button
   document.getElementById(tabName).classList.add("active");
   document.querySelector(`button[data-tab="${tabName}"]`).classList.add("active");
+
+  // Update player stats display
+  updateStats();
 }
 
 // Function to handle encounters
@@ -99,14 +100,14 @@ function startCombat() {
 // Function to handle player attacks
 function attack() {
   // Player attack
-  if (Math.random() < getCriticalHitChance(playerStats.intelligence)) {
-    const playerAttackDamage = playerStats.strength * 1.5;
+  if (Math.random() < getCriticalHitChance()) {
+    const playerAttackDamage = calculateAttackDamage() * 1.5;
     currentEnemy.health -= playerAttackDamage;
-    log.value += `You critically hit the ${currentEnemy.name} for ${playerAttackDamage} damage!\n`;
+    log.value += `You critically hit the ${currentEnemy.name} for ${playerAttackDamage.toFixed(2)} damage!\n`;
   } else {
-    const playerAttackDamage = playerStats.strength;
+    const playerAttackDamage = calculateAttackDamage();
     currentEnemy.health -= playerAttackDamage;
-    log.value += `You hit the ${currentEnemy.name} for ${playerAttackDamage} damage.\n`;
+    log.value += `You hit the ${currentEnemy.name} for ${playerAttackDamage.toFixed(2)} damage.\n`;
   }
 
   // Check if the enemy is defeated
@@ -132,10 +133,35 @@ function attack() {
 }
 
 // Function to calculate critical hit chance based on intelligence
-function getCriticalHitChance(intelligence) {
+function getCriticalHitChance() {
   const baseCriticalHitChance = 0.15;
   const intelligenceModifier = 0.01;
-  return baseCriticalHitChance + intelligence * intelligenceModifier;
+  return baseCriticalHitChance + playerStats.intelligence * intelligenceModifier;
+}
+
+// Function to calculate attack damage based on strength
+function calculateAttackDamage() {
+  return playerStats.strength;
+}
+
+// Function to calculate attack speed based on speed
+function calculateAttackSpeed() {
+  return playerStats.speed;
+}
+
+// Function to calculate critical hit damage based on intelligence
+function calculateCriticalHitDamage() {
+  const baseCriticalHitDamage = 1.5;
+  return baseCriticalHitDamage + playerStats.intelligence * 0.1;
+}
+
+// Function to update skill progress bar
+function updateSkillProgressBar(skillId, skill) {
+  const progressBar = document.getElementById(`${skillId}-bar`);
+  const progressPercentage = (skill.experience / skill.experienceNeeded) * 100;
+  progressBar.style.width = `${progressPercentage}%`;
+  const progressText = document.getElementById(`${skillId}-progress`);
+  progressText.textContent = `${skill.experience}/${skill.experienceNeeded}`;
 }
 
 // Function to handle victory
@@ -202,6 +228,7 @@ function levelUp() {
   playerStats.experienceNeeded *= 1.5; // Increase experience requirement
 
   // Increase player's stats upon leveling up
+  playerStats.maxHealth += playerStats.constitution;
   playerStats.constitution += 2;
   playerStats.strength += 2;
   playerStats.intelligence += 2;
