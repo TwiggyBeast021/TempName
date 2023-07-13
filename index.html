@@ -26,7 +26,12 @@
       padding: 10px 20px;
       border: none;
       cursor: pointer;
-      border-radius: 20px;
+      border-radius: 0;
+    }
+
+    .button.active {
+      background-color: #ffffff;
+      color: #333333;
     }
 
     .textbox {
@@ -101,6 +106,12 @@
       weapon: 'Sword',
       armor: 'Leather',
     };
+
+    let encounters = [
+      { name: 'Goblin', experience: 20, skillExperience: { skill1: 10, skill2: 5, skill3: 0 } },
+      { name: 'Skeleton', experience: 30, skillExperience: { skill1: 5, skill2: 10, skill3: 0 } },
+      { name: 'Orc', experience: 40, skillExperience: { skill1: 0, skill2: 5, skill3: 10 } },
+    ];
 
     // Function to update player info tab
     function updatePlayerInfoTab() {
@@ -179,30 +190,60 @@
     // Function to delve into the dungeon
     function delve() {
       // Perform actions when delving
+      const floor = document.getElementById('floor-input').value;
+      const encounterIndex = Math.floor(Math.random() * encounters.length);
+      const encounter = encounters[encounterIndex];
+
+      // Update player stats and skills based on the encounter
+      playerStats.experience += encounter.experience;
+      for (const skill in encounter.skillExperience) {
+        skills[skill].level += encounter.skillExperience[skill];
+      }
 
       // Log the encounter in the main tab
       const mainLog = document.getElementById('main-log');
-      const encounter = 'You delve into the dungeon.';
-      mainLog.textContent += encounter + '\n';
+      const encounterText = `You encounter a ${encounter.name} on floor ${floor}.`;
+      const experienceText = `You gain ${encounter.experience} experience.`;
+      mainLog.textContent += encounterText + '\n' + experienceText + '\n';
+
+      // Update player info and skills tabs
+      updatePlayerInfoTab();
+      updateSkillsTab();
     }
 
     // Function to explore the dungeon
     function explore() {
       // Perform actions when exploring
+      const encounterIndex = Math.floor(Math.random() * encounters.length);
+      const encounter = encounters[encounterIndex];
+
+      // Update player stats and skills based on the encounter
+      playerStats.experience += encounter.experience;
+      for (const skill in encounter.skillExperience) {
+        skills[skill].level += encounter.skillExperience[skill];
+      }
 
       // Log the encounter in the main tab
       const mainLog = document.getElementById('main-log');
-      const encounter = 'You encounter a monster.';
-      mainLog.textContent += encounter + '\n';
+      const encounterText = `You encounter a ${encounter.name}.`;
+      const experienceText = `You gain ${encounter.experience} experience.`;
+      mainLog.textContent += encounterText + '\n' + experienceText + '\n';
+
+      // Update player info and skills tabs
+      updatePlayerInfoTab();
+      updateSkillsTab();
     }
 
     // Function to open a specific tab
     function openTab(tabName) {
+      const tabButtons = document.getElementsByClassName('button');
       const tabContent = document.getElementsByClassName('tab');
       for (let i = 0; i < tabContent.length; i++) {
         tabContent[i].style.display = 'none';
+        tabButtons[i].classList.remove('active');
       }
       document.getElementById(tabName).style.display = 'block';
+      document.getElementById(tabName + '-tab').classList.add('active');
     }
 
     // Event listeners for tab buttons
@@ -264,7 +305,7 @@
 <body>
   <h1>Into The Depths</h1>
 
-  <button id="explore-tab" class="button">Explore</button>
+  <button id="explore-tab" class="button active">Explore</button>
   <button id="info-tab" class="button">Player Info</button>
   <button id="skills-tab" class="button">Skills</button>
   <button id="inventory-tab" class="button">Inventory</button>
@@ -274,6 +315,7 @@
     <h2>Explore</h2>
     <textarea id="main-log" class="textbox" readonly></textarea>
     <br>
+    <input type="text" id="floor-input" placeholder="Enter floor">
     <button id="delve-btn" class="button">Delve</button>
     <button id="explore-btn" class="button">Explore</button>
   </div>
@@ -328,26 +370,5 @@
     <h2>Settings</h2>
     <p>Game settings go here.</p>
   </div>
-
-  <script>
-    // Initialize game state
-    document.getElementById('constitution').textContent = playerStats.constitution;
-    document.getElementById('strength').textContent = playerStats.strength;
-    document.getElementById('intelligence').textContent = playerStats.intelligence;
-    document.getElementById('speed').textContent = playerStats.speed;
-
-    document.getElementById('level-progress').style.width = '60%';
-    document.getElementById('experience-text').textContent = '0/100';
-
-    document.getElementById('skill1-level').textContent = skills.skill1.level;
-    document.getElementById('skill2-level').textContent = skills.skill2.level;
-    document.getElementById('skill3-level').textContent = skills.skill3.level;
-    document.getElementById('skill1-progress').style.width = skills.skill1.level * 10 + '%';
-    document.getElementById('skill2-progress').style.width = skills.skill2.level * 10 + '%';
-    document.getElementById('skill3-progress').style.width = skills.skill3.level * 10 + '%';
-
-    document.getElementById('weapon').textContent = equipment.weapon;
-    document.getElementById('armor').textContent = equipment.armor;
-  </script>
 </body>
 </html>
