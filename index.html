@@ -1,27 +1,179 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Incremental Game</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+  <title>Into The Depths</title>
+  <style>
+    body {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+    }
+
+    .tab {
+      display: none;
+    }
+
+    .active {
+      display: block;
+    }
+
+    .button {
+      background-color: #333333;
+      color: #ffffff;
+      font-size: 18px;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .textbox {
+      width: 100%;
+      height: 200px;
+      background-color: #333333;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      border: none;
+      padding: 10px;
+    }
+
+    .stats {
+      margin-bottom: 10px;
+    }
+
+    .level-bar {
+      background-color: #333333;
+      height: 20px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .level-progress {
+      background-color: #00ff00;
+      height: 100%;
+    }
+
+    .skills {
+      margin-bottom: 10px;
+    }
+
+    .inventory {
+      margin-bottom: 10px;
+    }
+
+    .equipment {
+      margin-bottom: 10px;
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Set the initial active tab
+      openTab('main');
+
+      // Event listeners for tab buttons
+      document.getElementById('main-tab').addEventListener('click', function() {
+        openTab('main');
+      });
+
+      document.getElementById('info-tab').addEventListener('click', function() {
+        openTab('info');
+      });
+
+      document.getElementById('skills-tab').addEventListener('click', function() {
+        openTab('skills');
+      });
+
+      document.getElementById('inventory-tab').addEventListener('click', function() {
+        openTab('inventory');
+      });
+
+      document.getElementById('settings-tab').addEventListener('click', function() {
+        openTab('settings');
+      });
+    });
+
+    function openTab(tabName) {
+      var i, tabContent;
+      tabContent = document.getElementsByClassName("tab");
+      for (i = 0; i < tabContent.length; i++) {
+        tabContent[i].style.display = "none";
+      }
+      document.getElementById(tabName).style.display = "block";
+    }
+  </script>
 </head>
 <body>
-    <h1>Incremental Game</h1>
-    <div id="stats">
-        <p>Stats:</p>
-        <p id="score">Score: 0</p>
-        <p id="level">Level: 1</p>
-    </div>
-    <div id="log">
-        <h2>Encounter Log</h2>
-        <ul id="logList"></ul>
-    </div>
-    <div id="actions">
-        <h2>Actions</h2>
-        <button id="increaseScoreButton">Increase Score</button>
-        <button id="increaseLevelButton">Increase Level</button>
-        <div id="progressBar"></div>
-    </div>
+  <h1>Into The Depths</h1>
 
-    <script src="script.js"></script>
+  <button id="main-tab" class="button">Main</button>
+  <button id="info-tab" class="button">Player Info</button>
+  <button id="skills-tab" class="button">Skills</button>
+  <button id="inventory-tab" class="button">Inventory</button>
+  <button id="settings-tab" class="button">Settings</button>
+
+  <div id="main" class="tab active">
+    <h2>Main</h2>
+    <textarea class="textbox" readonly></textarea>
+    <br>
+    <button class="button">Delve</button>
+    <button class="button">Explore</button>
+  </div>
+
+  <div id="info" class="tab">
+    <h2>Player Info</h2>
+    <div class="stats">
+      <p>Constitution: <span id="constitution">10</span></p>
+      <p>Strength: <span id="strength">5</span></p>
+      <p>Intelligence: <span id="intelligence">8</span></p>
+      <p>Speed: <span id="speed">6</span></p>
+    </div>
+    <div class="level-bar">
+      <div id="level-progress" class="level-progress" style="width: 60%;"></div>
+    </div>
+    <button class="button">Level Up</button>
+  </div>
+
+  <div id="skills" class="tab">
+    <h2>Skills</h2>
+    <div class="skills">
+      <p>Skill 1: Level <span id="skill1-level">3</span></p>
+      <p>Skill 2: Level <span id="skill2-level">1</span></p>
+      <p>Skill 3: Level <span id="skill3-level">2</span></p>
+    </div>
+    <button class="button">Upgrade Skill</button>
+  </div>
+
+  <div id="inventory" class="tab">
+    <h2>Inventory</h2>
+    <div class="inventory">
+      <p>Item 1</p>
+      <p>Item 2</p>
+      <p>Item 3</p>
+    </div>
+    <div class="equipment">
+      <p>Weapon: Sword</p>
+      <p>Armor: Leather</p>
+    </div>
+    <button class="button">Equip Item</button>
+  </div>
+
+  <div id="settings" class="tab">
+    <h2>Settings</h2>
+    <p>Game settings go here.</p>
+  </div>
+
+  <script>
+    document.getElementById('constitution').textContent = 10;
+    document.getElementById('strength').textContent = 5;
+    document.getElementById('intelligence').textContent = 8;
+    document.getElementById('speed').textContent = 6;
+
+    document.getElementById('level-progress').style.width = '60%';
+
+    document.getElementById('skill1-level').textContent = 3;
+    document.getElementById('skill2-level').textContent = 1;
+    document.getElementById('skill3-level').textContent = 2;
+  </script>
 </body>
 </html>
