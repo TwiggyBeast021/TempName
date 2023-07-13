@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
   <title>Into The Depths</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -19,93 +19,103 @@
     </div>
 
     <div id="explore" class="tab active">
-      <h2>Explore</h2>
-      <div class="section">
-        <button id="start-combat" onclick="startCombat()">Start Combat</button>
+      <h2>Into The Depths</h2>
+      <textarea id="log" class="log" readonly></textarea>
+      <button id="start-combat" onclick="startCombat()">Start Combat</button>
+      <button id="attack" onclick="attack()" disabled>Attack</button>
+      <div class="progress-bar">
+        <div id="experience-bar" class="bar"></div>
       </div>
-      <div class="section">
-        <div class="progress-bar">
-          <div id="health-bar" class="bar"></div>
-        </div>
-        <span id="health"></span>
+      <div class="progress-bar">
+        <div id="health-bar" class="bar"></div>
       </div>
-      <div class="section">
-        <div class="progress-bar">
-          <div id="enemy-health-bar" class="bar"></div>
-        </div>
-        <span id="enemy-health"></span>
+      <div class="progress-bar">
+        <div id="enemy-health-bar" class="bar"></div>
       </div>
-      <textarea id="log" class="log" rows="10" readonly></textarea>
+      <div id="player-stats" class="player-stats">
+        <ul>
+          <li><strong>Level:</strong> <span id="level"></span></li>
+          <li><strong>Experience:</strong> <span id="experience"></span>/<span id="experience-needed"></span></li>
+          <li><strong>Health:</strong> <span id="current-health"></span>/<span id="health"></span></li>
+        </ul>
+      </div>
+      <div class="complex-stats">
+        <h3>Complex Stats</h3>
+        <ul>
+          <li><strong>Attack Damage:</strong> <span id="attack-damage"></span></li>
+          <li><strong>Attack Speed:</strong> <span id="attack-speed"></span></li>
+          <li><strong>Critical Hit Chance:</strong> <span id="critical-hit-chance"></span></li>
+          <li><strong>Critical Hit Damage:</strong> <span id="critical-hit-damage"></span></li>
+        </ul>
+      </div>
     </div>
 
     <div id="player-info" class="tab">
       <h2>Player Info</h2>
       <div class="section">
-        <h3>Stats</h3>
+        <h3>Basic Stats</h3>
         <ul>
-          <li>Level: <span id="level"></span></li>
-          <li>Experience: <span id="experience"></span>/<span id="experience-needed"></span></li>
-          <li>Health: <span id="health"></span></li>
-          <li>Constitution: <span id="constitution"></span></li>
-          <li>Strength: <span id="strength"></span></li>
-          <li>Intelligence: <span id="intelligence"></span></li>
-          <li>Speed: <span id="speed"></span></li>
+          <li><strong>Level:</strong> <span id="level"></span></li>
+          <li><strong>Experience:</strong> <span id="experience"></span>/<span id="experience-needed"></span></li>
+          <li><strong>Health:</strong> <span id="current-health"></span>/<span id="health"></span></li>
+          <li><strong>Constitution:</strong> <span id="constitution"></span></li>
+          <li><strong>Strength:</strong> <span id="strength"></span></li>
+          <li><strong>Intelligence:</strong> <span id="intelligence"></span></li>
+          <li><strong>Speed:</strong> <span id="speed"></span></li>
+        </ul>
+      </div>
+      <div class="section">
+        <h3>Skills</h3>
+        <ul>
+          <li><strong>Critical Hit:</strong> Level <span id="skill1-level"></span> (<span id="skill1-progress"></span>)</li>
+          <button onclick="upgradeSkill('criticalHit')" disabled>Upgrade</button>
+          <li><strong>Dodge:</strong> Level <span id="skill2-level"></span> (<span id="skill2-progress"></span>)</li>
+          <button onclick="upgradeSkill('dodge')" disabled>Upgrade</button>
+          <li><strong>Combat:</strong> Level <span id="skill3-level"></span> (<span id="skill3-progress"></span>)</li>
+          <button onclick="upgradeSkill('combat')" disabled>Upgrade</button>
         </ul>
       </div>
     </div>
 
     <div id="skills" class="tab">
       <h2>Skills</h2>
-      <div class="section">
-        <h3>Skill 1: <span id="skill1-name"></span> (Level <span id="skill1-level"></span>)</h3>
+      <section>
+        <h3>Critical Hit</h3>
         <div class="progress-bar">
-          <div class="bar"></div>
+          <div id="skill1-bar" class="bar"></div>
         </div>
-        <p>
-          Experience: <span id="skill1-experience"></span>/<span id="skill1-experience-needed"></span>
-        </p>
-        <p>Description: <span id="skill1-description"></span></p>
-        <button onclick="upgradeSkill('criticalHit')">Upgrade</button>
-      </div>
-      <div class="section">
-        <h3>Skill 2: <span id="skill2-name"></span> (Level <span id="skill2-level"></span>)</h3>
+        <p><strong>Level:</strong> <span id="skill1-level"></span> (<span id="skill1-progress"></span>)</p>
+        <p><strong>Description:</strong> Increases critical hit chance</p>
+        <button onclick="upgradeSkill('criticalHit')" disabled>Upgrade</button>
+      </section>
+      <section>
+        <h3>Dodge</h3>
         <div class="progress-bar">
-          <div class="bar"></div>
+          <div id="skill2-bar" class="bar"></div>
         </div>
-        <p>
-          Experience: <span id="skill2-experience"></span>/<span id="skill2-experience-needed"></span>
-        </p>
-        <p>Description: <span id="skill2-description"></span></p>
-        <button onclick="upgradeSkill('dodge')">Upgrade</button>
-      </div>
-      <div class="section">
-        <h3>Skill 3: <span id="skill3-name"></span> (Level <span id="skill3-level"></span>)</h3>
+        <p><strong>Level:</strong> <span id="skill2-level"></span> (<span id="skill2-progress"></span>)</p>
+        <p><strong>Description:</strong> Increases evasion chance</p>
+        <button onclick="upgradeSkill('dodge')" disabled>Upgrade</button>
+      </section>
+      <section>
+        <h3>Combat</h3>
         <div class="progress-bar">
-          <div class="bar"></div>
+          <div id="skill3-bar" class="bar"></div>
         </div>
-        <p>
-          Experience: <span id="skill3-experience"></span>/<span id="skill3-experience-needed"></span>
-        </p>
-        <p>Description: <span id="skill3-description"></span></p>
-        <button onclick="upgradeSkill('combat')">Upgrade</button>
-      </div>
+        <p><strong>Level:</strong> <span id="skill3-level"></span> (<span id="skill3-progress"></span>)</p>
+        <p><strong>Description:</strong> Increases attack damage</p>
+        <button onclick="upgradeSkill('combat')" disabled>Upgrade</button>
+      </section>
     </div>
 
     <div id="inventory" class="tab">
       <h2>Inventory</h2>
-      <div class="section">
-        <h3>Items</h3>
-        <ul id="item-list">
-          <!-- Items will be dynamically added here -->
-        </ul>
-      </div>
+      <ul id="item-list"></ul>
     </div>
 
     <div id="settings" class="tab">
       <h2>Settings</h2>
-      <div class="section">
-        <!-- Add your settings options here -->
-      </div>
+      <!-- Add your settings UI here -->
     </div>
   </div>
 
