@@ -8,7 +8,7 @@ let playerStats = {
   constitution: 10,
   strength: 5,
   intelligence: 8,
-  speed: 6
+  speed: 2
 };
 
 let skills = {
