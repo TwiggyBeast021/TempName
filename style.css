@@ -83,19 +83,7 @@ body {
   padding: 10px;
   background-color: #222;
   color: #fff;
-  font-family: Consolas, monospace;
-  font-size: 14px;
-  resize: none;
-  overflow-y: scroll;
-}
-
-.log::-webkit-scrollbar {
-  width: 6px;
-}
-
-.log::-webkit-scrollbar-thumb {
-  background-color: #666;
-  border-radius: 3px;
+  overflow-y: auto;
 }
 
 .start-combat {
@@ -113,21 +101,8 @@ body {
   padding: 0;
 }
 
-.player-stats ul li {
-  margin-bottom: 5px;
-}
-
-.inventory {
-  margin-bottom: 20px;
-}
-
-.inventory h3 {
-  margin-bottom: 5px;
-}
-
-.inventory ul {
-  list-style-type: none;
-  padding: 0;
+.player-stats li {
+  margin-bottom: 10px;
 }
 
 .skill {
@@ -135,17 +110,31 @@ body {
 }
 
 .skill h3 {
+  margin-bottom: 10px;
+}
+
+.inventory ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.inventory li {
   margin-bottom: 5px;
 }
 
-.skill-progress-bar {
+.equipment ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.equipment li {
+  margin-bottom: 10px;
+}
+
+.health-bar {
+  background-color: #ff5252;
+}
+
+.xp-bar {
   background-color: #fdd835;
-}
-
-#player-health-bar {
-  background-color: red;
-}
-
-#enemy-health-bar {
-  background-color: red;
 }
