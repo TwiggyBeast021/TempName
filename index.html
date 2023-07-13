@@ -25,7 +25,7 @@
           <div class="progress-bar-container">
             <span class="bar-label" id="player-health-text"></span>
             <div class="progress-bar">
-              <div class="bar" id="player-health-bar"></div>
+              <div class="bar health-bar" id="player-health-bar"></div>
             </div>
           </div>
         </div>
@@ -34,13 +34,13 @@
           <div class="progress-bar-container">
             <span class="bar-label" id="enemy-health-text"></span>
             <div class="progress-bar">
-              <div class="bar" id="enemy-health-bar"></div>
+              <div class="bar health-bar" id="enemy-health-bar"></div>
             </div>
           </div>
         </div>
       </div>
       <div>
-        <button class="start-combat" onclick="startCombat()">Start Combat</button>
+        <button class="start-combat" id="start-combat" onclick="startCombat()">Start Combat</button>
       </div>
       <div class="log" id="log"></div>
     </div>
@@ -82,7 +82,7 @@
         <div class="progress-bar-container">
           <span class="bar-label">Level <span id="attack-level"></span></span>
           <div class="progress-bar">
-            <div class="bar" id="attack-bar"></div>
+            <div class="bar xp-bar" id="attack-bar"></div>
           </div>
           <span id="attack-experience" class="bar-text"></span>
           <span id="attack-experience-needed" class="bar-text"></span>
@@ -93,7 +93,7 @@
         <div class="progress-bar-container">
           <span class="bar-label">Level <span id="defense-level"></span></span>
           <div class="progress-bar">
-            <div class="bar" id="defense-bar"></div>
+            <div class="bar xp-bar" id="defense-bar"></div>
           </div>
           <span id="defense-experience" class="bar-text"></span>
           <span id="defense-experience-needed" class="bar-text"></span>
@@ -104,7 +104,7 @@
         <div class="progress-bar-container">
           <span class="bar-label">Level <span id="critical-hit-level"></span></span>
           <div class="progress-bar">
-            <div class="bar" id="critical-hit-bar"></div>
+            <div class="bar xp-bar" id="critical-hit-bar"></div>
           </div>
           <span id="critical-hit-experience" class="bar-text"></span>
           <span id="critical-hit-experience-needed" class="bar-text"></span>
@@ -115,7 +115,7 @@
         <div class="progress-bar-container">
           <span class="bar-label">Level <span id="dodge-level"></span></span>
           <div class="progress-bar">
-            <div class="bar" id="dodge-bar"></div>
+            <div class="bar xp-bar" id="dodge-bar"></div>
           </div>
           <span id="dodge-experience" class="bar-text"></span>
           <span id="dodge-experience-needed" class="bar-text"></span>
