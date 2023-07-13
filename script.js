@@ -2,6 +2,7 @@
 let playerStats = {
   level: 1,
   experience: 0,
+  experienceNeeded: 100,
   maxHealth: 100,
   currentHealth: 100,
   constitution: 10,
@@ -28,6 +29,7 @@ let inventory = [];
 function updateStats() {
   document.getElementById("level").textContent = playerStats.level;
   document.getElementById("experience").textContent = playerStats.experience;
+  document.getElementById("experience-needed").textContent = playerStats.experienceNeeded;
   document.getElementById("health").textContent = playerStats.currentHealth;
   document.getElementById("constitution").textContent = playerStats.constitution;
   document.getElementById("strength").textContent = playerStats.strength;
@@ -36,6 +38,11 @@ function updateStats() {
   document.getElementById("skill1-level").textContent = skills.skill1.level;
   document.getElementById("skill2-level").textContent = skills.skill2.level;
   document.getElementById("skill3-level").textContent = skills.skill3.level;
+
+  // Update experience bar
+  const experienceBar = document.getElementById("experience-bar");
+  const experiencePercentage = (playerStats.experience / playerStats.experienceNeeded) * 100;
+  experienceBar.style.width = `${experiencePercentage}%`;
 }
 
 // Function to open a specific tab
@@ -94,7 +101,7 @@ function victory(enemy) {
   playerStats.experience += enemy.experience;
 
   // Check if the player leveled up
-  if (playerStats.experience >= 100) {
+  if (playerStats.experience >= playerStats.experienceNeeded) {
     levelUp();
   }
 
@@ -118,6 +125,9 @@ function victory(enemy) {
   const log = document.getElementById("log");
   log.value += `You defeat the ${enemy.name}! You gain ${enemy.experience} experience.\n`;
   log.scrollTop = log.scrollHeight;
+
+  // Update player stats display
+  updateStats();
 }
 
 // Function to handle level up
@@ -126,6 +136,13 @@ function levelUp() {
   playerStats.maxHealth += 10;
   playerStats.currentHealth = playerStats.maxHealth;
   playerStats.experience = 0;
+  playerStats.experienceNeeded *= 1.5; // Increase experience requirement
+
+  // Increase player's stats upon leveling up
+  playerStats.constitution += 2;
+  playerStats.strength += 1;
+  playerStats.intelligence += 1;
+  playerStats.speed += 1;
 
   // Log the level up
   const log = document.getElementById("log");
