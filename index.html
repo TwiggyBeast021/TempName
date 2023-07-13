@@ -54,7 +54,7 @@ html
     
     // Click event listener
     clickButton.addEventListener("click", function() {
-      score += modifiers + 1;
+      score += (modifiers + 1);
       updateScore();
     });
     
@@ -81,6 +81,12 @@ html
         updateCosts();
       }
     });
+    
+    // Auto-generate score based on generators
+    setInterval(function() {
+      score += (generators * modifiers);
+      updateScore();
+    }, 1000);
   </script>
 </body>
 </html>
