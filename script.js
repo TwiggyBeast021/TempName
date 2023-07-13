@@ -1,4 +1,3 @@
-javascript
 let energy = 0;
 let metal = 0;
 let energyGenerators = 0;
