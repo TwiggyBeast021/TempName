@@ -246,13 +246,108 @@
       equipItem('weapon', itemToEquip);
     });
 
-    document.getElementById('delve-btn').addEventListener('<button id="explore-tab" class="button">Explore</button>
+    document.getElementById('delve-btn').addEventListener('click', function() {
+      delve();
+    });
 
-<div id="explore" class="tab active">
-  <h2>Explore</h2>
-  <textarea id="main-log" class="textbox" readonly></textarea>
-  <br>
-  <button id="delve-btn" class="button">Delve</button>
-  <button id="explore-btn" class="button">Explore</button>
-</div>
+    document.getElementById('explore-btn').addEventListener('click', function() {
+      explore();
+    });
 
+    // Initial updates
+    updatePlayerInfoTab();
+    updateSkillsTab();
+    updateInventoryTab();
+    updateEquipmentTab();
+  </script>
+</head>
+<body>
+  <h1>Into The Depths</h1>
+
+  <button id="explore-tab" class="button">Explore</button>
+  <button id="info-tab" class="button">Player Info</button>
+  <button id="skills-tab" class="button">Skills</button>
+  <button id="inventory-tab" class="button">Inventory</button>
+  <button id="settings-tab" class="button">Settings</button>
+
+  <div id="explore" class="tab active">
+    <h2>Explore</h2>
+    <textarea id="main-log" class="textbox" readonly></textarea>
+    <br>
+    <button id="delve-btn" class="button">Delve</button>
+    <button id="explore-btn" class="button">Explore</button>
+  </div>
+
+  <div id="info" class="tab">
+    <h2>Player Info</h2>
+    <div class="stats">
+      <p>Constitution: <span id="constitution">10</span></p>
+      <p>Strength: <span id="strength">5</span></p>
+      <p>Intelligence: <span id="intelligence">8</span></p>
+      <p>Speed: <span id="speed">6</span></p>
+    </div>
+    <div class="level-bar">
+      <div id="level-progress" class="level-progress" style="width: 60%;"></div>
+    </div>
+    <p id="experience-text">0/100</p>
+    <button id="level-up-btn" class="button">Level Up</button>
+  </div>
+
+  <div id="skills" class="tab">
+    <h2>Skills</h2>
+    <div class="skills">
+      <p>Skill 1: Level <span id="skill1-level">3</span></p>
+      <div class="skill-bar">
+        <div id="skill1-progress" class="skill-progress" style="width: 30%;"></div>
+      </div>
+      <p>Skill 2: Level <span id="skill2-level">1</span></p>
+      <div class="skill-bar">
+        <div id="skill2-progress" class="skill-progress" style="width: 10%;"></div>
+      </div>
+      <p>Skill 3: Level <span id="skill3-level">2</span></p>
+      <div class="skill-bar">
+        <div id="skill3-progress" class="skill-progress" style="width: 20%;"></div>
+      </div>
+    </div>
+    <button id="upgrade-skill-btn" class="button">Upgrade Skill</button>
+  </div>
+
+  <div id="inventory" class="tab">
+    <h2>Inventory</h2>
+    <div class="inventory">
+      <div id="inventory-items"></div>
+    </div>
+    <div class="equipment">
+      <p>Weapon: <span id="weapon">Sword</span></p>
+      <p>Armor: <span id="armor">Leather</span></p>
+    </div>
+    <button id="equip-item-btn" class="button">Equip Item</button>
+  </div>
+
+  <div id="settings" class="tab">
+    <h2>Settings</h2>
+    <p>Game settings go here.</p>
+  </div>
+
+  <script>
+    // Initialize game state
+    document.getElementById('constitution').textContent = playerStats.constitution;
+    document.getElementById('strength').textContent = playerStats.strength;
+    document.getElementById('intelligence').textContent = playerStats.intelligence;
+    document.getElementById('speed').textContent = playerStats.speed;
+
+    document.getElementById('level-progress').style.width = '60%';
+    document.getElementById('experience-text').textContent = '0/100';
+
+    document.getElementById('skill1-level').textContent = skills.skill1.level;
+    document.getElementById('skill2-level').textContent = skills.skill2.level;
+    document.getElementById('skill3-level').textContent = skills.skill3.level;
+    document.getElementById('skill1-progress').style.width = skills.skill1.level * 10 + '%';
+    document.getElementById('skill2-progress').style.width = skills.skill2.level * 10 + '%';
+    document.getElementById('skill3-progress').style.width = skills.skill3.level * 10 + '%';
+
+    document.getElementById('weapon').textContent = equipment.weapon;
+    document.getElementById('armor').textContent = equipment.armor;
+  </script>
+</body>
+</html>
