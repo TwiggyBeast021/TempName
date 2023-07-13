@@ -10,6 +10,8 @@
     <div id="tab-buttons">
       <button class="tab-button active" onclick="openTab('explore')">Explore</button>
       <button class="tab-button" onclick="openTab('info')">Player Info</button>
+      <button class="tab-button" onclick="openTab('skills')">Skills</button>
+      <button class="tab-button" onclick="openTab('inventory')">Inventory</button>
     </div>
     <div id="tabs">
       <div id="explore" class="tab active">
@@ -21,11 +23,25 @@
         <h2>Player Info</h2>
         <p>Level: <span id="level">1</span></p>
         <p>Experience: <span id="experience">0</span></p>
+        <p>Health: <span id="health">100</span></p>
         <p>Constitution: <span id="constitution">10</span></p>
         <p>Strength: <span id="strength">5</span></p>
         <p>Intelligence: <span id="intelligence">8</span></p>
         <p>Speed: <span id="speed">6</span></p>
         <button onclick="levelUp()">Level Up</button>
+      </div>
+      <div id="skills" class="tab">
+        <h2>Skills</h2>
+        <p>Skill 1: Level <span id="skill1-level">1</span></p>
+        <p>Skill 2: Level <span id="skill2-level">1</span></p>
+        <p>Skill 3: Level <span id="skill3-level">1</span></p>
+        <button onclick="upgradeSkill('skill1')">Upgrade Skill 1</button>
+        <button onclick="upgradeSkill('skill2')">Upgrade Skill 2</button>
+        <button onclick="upgradeSkill('skill3')">Upgrade Skill 3</button>
+      </div>
+      <div id="inventory" class="tab">
+        <h2>Inventory</h2>
+        <ul id="item-list"></ul>
       </div>
     </div>
   </div>
