@@ -22,16 +22,18 @@ body {
 
 .tab-button {
   background-color: #444444;
-  border: none;
   color: #ffffff;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+  border-radius: 10px 10px 0 0;
 }
 
 .tab-button.active {
   background-color: #ffffff;
   color: #444444;
+  border-bottom: none;
+  cursor: default;
 }
 
 .tab {
@@ -47,10 +49,10 @@ body {
 #start-combat {
   background-color: #2ecc71;
   color: #ffffff;
-  border: none;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+  border-radius: 10px;
 }
 
 #start-combat:disabled {
@@ -68,11 +70,13 @@ body {
   background-color: #444444;
   height: 20px;
   margin-bottom: 10px;
+  border-radius: 10px;
 }
 
 .bar {
   background-color: #2ecc71;
   height: 100%;
+  border-radius: 10px;
 }
 
 /* Player Info Tab */
@@ -90,10 +94,10 @@ section h3 {
 button {
   background-color: #2ecc71;
   color: #ffffff;
-  border: none;
   padding: 5px 10px;
   font-size: 14px;
   cursor: pointer;
+  border-radius: 10px;
 }
 
 button:disabled {
@@ -117,10 +121,44 @@ ul {
 
 #health-bar {
   background-color: #e74c3c;
+  border-radius: 10px;
 }
 
 /* Enemy Health Bar */
 
 #enemy-health-bar {
   background-color: #e67e22;
+  border-radius: 10px;
+}
+
+/* Player Stats */
+
+.player-stats {
+  margin-bottom: 20px;
+}
+
+.player-stats ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.player-stats ul li {
+  margin-bottom: 5px;
+}
+
+/* Complex Stats */
+
+.complex-stats {
+  margin-top: 20px;
+}
+
+.complex-stats ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.complex-stats ul li {
+  margin-bottom: 5px;
 }
