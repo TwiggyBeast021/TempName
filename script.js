@@ -13,10 +13,10 @@ let player = {
 
 // Enemies
 const enemies = [
-  { name: "Slime", maxHealth: 20, attack: 5, experience: 10, dropRate: 0.5 },
-  { name: "Goblin", maxHealth: 30, attack: 8, experience: 15, dropRate: 0.3 },
-  { name: "Orc", maxHealth: 50, attack: 12, experience: 20, dropRate: 0.2 },
-  { name: "Dragon", maxHealth: 100, attack: 20, experience: 40, dropRate: 0.1 },
+  { name: "Slime", maxHealth: 10, attack: 2, experience: 10, dropRate: 0.5 },
+  { name: "Goblin", maxHealth: 20, attack: 4, experience: 15, dropRate: 0.3 },
+  { name: "Orc", maxHealth: 30, attack: 6, experience: 20, dropRate: 0.2 },
+  { name: "Dragon", maxHealth: 50, attack: 10, experience: 40, dropRate: 0.1 },
 ];
 
 // Inventory
@@ -142,6 +142,15 @@ function updateStats() {
   document.getElementById("strength").textContent = player.strength;
   document.getElementById("intelligence").textContent = player.intelligence;
   document.getElementById("speed").textContent = player.speed;
+
+  // Update progress bars
+  const xpBar = document.getElementById("xp-bar");
+  const xpProgress = (player.experience / player.experienceNeeded) * 100;
+  xpBar.style.width = `${xpProgress}%`;
+
+  const healthBar = document.getElementById("health-bar");
+  const healthProgress = (player.currentHealth / player.maxHealth) * 100;
+  healthBar.style.width = `${healthProgress}%`;
 }
 
 // Update inventory display
@@ -156,5 +165,23 @@ function updateInventory() {
   }
 }
 
+// Function to switch between tabs
+function openTab(tabName) {
+  const tabs = document.getElementsByClassName("tab");
+  const tabButtons = document.getElementsByClassName("tab-button");
+
+  for (let i = 0; i < tabs.length; i++) {
+    tabs[i].style.display = "none";
+  }
+
+  for (let i = 0; i < tabButtons.length; i++) {
+    tabButtons[i].classList.remove("active");
+  }
+
+  document.getElementById(tabName).style.display = "block";
+  document.querySelector(`[data-tab="${tabName}"]`).classList.add("active");
+}
+
 // Initialize the game
 updateStats();
+openTab("explore");
