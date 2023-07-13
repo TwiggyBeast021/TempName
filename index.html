@@ -14,6 +14,7 @@
       <button class="tab-button active" data-tab="explore" onclick="openTab('explore')">Explore</button>
       <button class="tab-button" data-tab="player-info" onclick="openTab('player-info')">Player Info</button>
       <button class="tab-button" data-tab="inventory" onclick="openTab('inventory')">Inventory</button>
+      <button class="tab-button" data-tab="skills" onclick="openTab('skills')">Skills</button>
     </div>
 
     <div id="explore" class="tab active">
@@ -21,25 +22,22 @@
       <div class="combat-info">
         <div class="enemy-info">
           <h3>Enemy</h3>
-          <div class="progress-bar">
-            <div class="bar enemy-health-bar" id="enemy-health-bar"></div>
+          <div class="progress-bar-container">
+            <span class="bar-label">Health:</span>
+            <div class="progress-bar">
+              <div class="bar enemy-health-bar" id="enemy-health-bar"></div>
+            </div>
+            <span id="enemy-health-text" class="bar-text"></span>
           </div>
         </div>
         <div class="player-info">
           <h3>Player</h3>
-          <div class="progress-bar">
-            <div class="bar player-health-bar" id="player-health-bar"></div>
-          </div>
-          <div class="player-stats">
-            <ul>
-              <li><strong>Level:</strong> <span id="level"></span></li>
-              <li><strong>Experience:</strong> <span id="experience"></span>/<span id="experience-needed"></span></li>
-              <li><strong>Health:</strong> <span id="current-health"></span>/<span id="max-health"></span></li>
-              <li><strong>Constitution:</strong> <span id="constitution"></span></li>
-              <li><strong>Strength:</strong> <span id="strength"></span></li>
-              <li><strong>Intelligence:</strong> <span id="intelligence"></span></li>
-              <li><strong>Speed:</strong> <span id="speed"></span></li>
-            </ul>
+          <div class="progress-bar-container">
+            <span class="bar-label">Health:</span>
+            <div class="progress-bar">
+              <div class="bar player-health-bar" id="player-health-bar"></div>
+            </div>
+            <span id="player-health-text" class="bar-text"></span>
           </div>
         </div>
       </div>
@@ -51,22 +49,79 @@
       <h2>Player Info</h2>
       <div class="player-stats">
         <ul>
-          <li><strong>Level:</strong> <span id="level"></span></li>
-          <li><strong>Experience:</strong> <span id="experience"></span>/<span id="experience-needed"></span></li>
-          <li><strong>Health:</strong> <span id="current-health"></span>/<span id="max-health"></span></li>
           <li><strong>Constitution:</strong> <span id="constitution"></span></li>
           <li><strong>Strength:</strong> <span id="strength"></span></li>
           <li><strong>Intelligence:</strong> <span id="intelligence"></span></li>
           <li><strong>Speed:</strong> <span id="speed"></span></li>
+          <li><strong>Critical Chance:</strong> <span id="critical-chance"></span></li>
+          <li><strong>Critical Damage:</strong> <span id="critical-damage"></span></li>
+          <li><strong>Dodge Chance:</strong> <span id="dodge-chance"></span></li>
+          <li><strong>Defense:</strong> <span id="defense"></span></li>
         </ul>
       </div>
     </div>
 
     <div id="inventory" class="tab">
       <h2>Inventory</h2>
-      <ul id="item-list"></ul>
+      <div class="inventory">
+        <h3>Armor</h3>
+        <ul id="armor-list"></ul>
+      </div>
+      <div class="inventory">
+        <h3>Weapon</h3>
+        <ul id="weapon-list"></ul>
+      </div>
+    </div>
+
+    <div id="skills" class="tab">
+      <h2>Skills</h2>
+      <div class="skill">
+        <h3>Attack</h3>
+        <div class="progress-bar-container">
+          <span class="bar-label">Level <span id="attack-level"></span></span>
+          <div class="progress-bar">
+            <div class="bar skill-progress-bar" id="attack-bar"></div>
+          </div>
+          <span id="attack-experience" class="bar-text"></span>
+          <span id="attack-experience-needed" class="bar-text"></span>
+        </div>
+      </div>
+      <div class="skill">
+        <h3>Defense</h3>
+        <div class="progress-bar-container">
+          <span class="bar-label">Level <span id="defense-level"></span></span>
+          <div class="progress-bar">
+            <div class="bar skill-progress-bar" id="defense-bar"></div>
+          </div>
+          <span id="defense-experience" class="bar-text"></span>
+          <span id="defense-experience-needed" class="bar-text"></span>
+        </div>
+      </div>
+      <div class="skill">
+        <h3>Critical Hit</h3>
+        <div class="progress-bar-container">
+          <span class="bar-label">Level <span id="critical-hit-level"></span></span>
+          <div class="progress-bar">
+            <div class="bar skill-progress-bar" id="critical-hit-bar"></div>
+          </div>
+          <span id="critical-hit-experience" class="bar-text"></span>
+          <span id="critical-hit-experience-needed" class="bar-text"></span>
+        </div>
+      </div>
+      <div class="skill">
+        <h3>Dodge</h3>
+        <div class="progress-bar-container">
+          <span class="bar-label">Level <span id="dodge-level"></span></span>
+          <div class="progress-bar">
+            <div class="bar skill-progress-bar" id="dodge-bar"></div>
+          </div>
+          <span id="dodge-experience" class="bar-text"></span>
+          <span id="dodge-experience-needed" class="bar-text"></span>
+        </div>
+      </div>
     </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 
