@@ -87,14 +87,17 @@ function startCombat() {
     log.value += `You encountered a ${currentEnemy.name}!\n`;
     log.scrollTop = log.scrollHeight;
     updateStats();
+
+    // Disable the "Start Combat" button after encountering an enemy
+    document.getElementById("start-combat").disabled = true;
+
+    // Enable the "Attack" button to allow the player to perform attacks
+    document.getElementById("attack").disabled = false;
   }
 }
 
-// Function to handle battles
-function battle() {
-  const playerAttackSpeed = playerStats.speed;
-  const enemyAttackSpeed = currentEnemy.speed;
-
+// Function to handle player attacks
+function attack() {
   // Player attack
   if (Math.random() < getCriticalHitChance(playerStats.intelligence)) {
     const playerAttackDamage = playerStats.strength * 1.5;
@@ -106,25 +109,25 @@ function battle() {
     log.value += `You hit the ${currentEnemy.name} for ${playerAttackDamage} damage.\n`;
   }
 
+  // Check if the enemy is defeated
+  if (currentEnemy.health <= 0) {
+    victory();
+    return;
+  }
+
   // Enemy attack
   const enemyAttackDamage = currentEnemy.attack;
   playerStats.currentHealth -= enemyAttackDamage;
   log.value += `The ${currentEnemy.name} hits you for ${enemyAttackDamage} damage.\n`;
 
-  // Check if the player or enemy is defeated
+  // Check if the player is defeated
   if (playerStats.currentHealth <= 0) {
     playerStats.currentHealth = 0;
     passOut();
     return;
   }
 
-  if (currentEnemy.health <= 0) {
-    victory();
-    return;
-  }
-
-  // Log the battle outcome
-  log.scrollTop = log.scrollHeight;
+  // Update player stats display
   updateStats();
 }
 
@@ -165,6 +168,12 @@ function victory() {
   log.value += `You defeat the ${currentEnemy.name}! You gain ${currentEnemy.experience} experience.\n`;
   currentEnemy = null;
 
+  // Enable the "Start Combat" button after victory
+  document.getElementById("start-combat").disabled = false;
+
+  // Disable the "Attack" button after victory
+  document.getElementById("attack").disabled = true;
+
   // Update player stats display
   updateStats();
 }
@@ -175,6 +184,12 @@ function passOut() {
   playerStats.experience = Math.floor(playerStats.experience * 0.5); // Lose half of experience
   log.value += "You pass out and wake up with reduced health and experience.\n";
   currentEnemy = null;
+
+  // Enable the "Start Combat" button after passing out
+  document.getElementById("start-combat").disabled = false;
+
+  // Disable the "Attack" button after passing out
+  document.getElementById("attack").disabled = true;
 
   // Update player stats display
   updateStats();
