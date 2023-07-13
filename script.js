@@ -11,19 +11,31 @@ let playerStats = {
 };
 
 let encounters = [
-  { name: "Goblin", experience: 20, health: 30, attack: 10 },
-  { name: "Skeleton", experience: 30, health: 40, attack: 15 },
-  { name: "Orc", experience: 40, health: 50, attack: 20 }
+  { name: "Goblin", experience: 20, health: 30, attack: 10, loot: { gold: 10 } },
+  { name: "Skeleton", experience: 30, health: 40, attack: 15, loot: { gold: 20, item: "Sword" } },
+  { name: "Orc", experience: 40, health: 50, attack: 20, loot: { gold: 30, item: "Armor" } }
 ];
+
+let skills = {
+  skill1: { name: "Skill 1", level: 1, description: "Increases attack power" },
+  skill2: { name: "Skill 2", level: 1, description: "Increases defense" },
+  skill3: { name: "Skill 3", level: 1, description: "Restores health" }
+};
+
+let inventory = [];
 
 // Function to update player stats
 function updateStats() {
   document.getElementById("level").textContent = playerStats.level;
   document.getElementById("experience").textContent = playerStats.experience;
+  document.getElementById("health").textContent = playerStats.currentHealth;
   document.getElementById("constitution").textContent = playerStats.constitution;
   document.getElementById("strength").textContent = playerStats.strength;
   document.getElementById("intelligence").textContent = playerStats.intelligence;
   document.getElementById("speed").textContent = playerStats.speed;
+  document.getElementById("skill1-level").textContent = skills.skill1.level;
+  document.getElementById("skill2-level").textContent = skills.skill2.level;
+  document.getElementById("skill3-level").textContent = skills.skill3.level;
 }
 
 // Function to open a specific tab
@@ -86,39 +98,12 @@ function victory(enemy) {
     levelUp();
   }
 
-  // Log the victory
-  const log = document.getElementById("log");
-  log.value += `You defeat the ${enemy.name}! You gain ${enemy.experience} experience.\n`;
-  log.scrollTop = log.scrollHeight;
-}
-
-// Function to handle level up
-function levelUp() {
-  playerStats.level++;
-  playerStats.maxHealth += 10;
-  playerStats.currentHealth = playerStats.maxHealth;
-  playerStats.experience = 0;
-
-  // Log the level up
-  const log = document.getElementById("log");
-  log.value += `Congratulations! You reached level ${playerStats.level}.\n`;
-  log.scrollTop = log.scrollHeight;
-
-  // Update player stats display
-  updateStats();
-}
-
-// Function to handle game over
-function gameOver() {
-  // Log the game over
-  const log = document.getElementById("log");
-  log.value += "Game Over! You have been defeated.\n";
-  log.scrollTop = log.scrollHeight;
-
-  // Disable encounter button
-  document.querySelector("#explore button").disabled = true;
-}
-
-// Initialize the game
-updateStats();
-openTab("explore");
+  // Grant loot rewards
+  if (enemy.loot) {
+    if (enemy.loot.gold) {
+      // Grant gold
+      log.value += `You find ${enemy.loot.gold} gold.\n`;
+      // TODO: Add gold to player's inventory or currency
+    }
+    if (enemy.loot.item) {
+      // Grant
