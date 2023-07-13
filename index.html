@@ -18,23 +18,33 @@
 
     <div id="explore" class="tab active">
       <h2>Into The Depths</h2>
+      <div class="combat-info">
+        <div class="enemy-info">
+          <h3>Enemy</h3>
+          <div class="progress-bar">
+            <div class="bar enemy-health-bar" id="enemy-health-bar"></div>
+          </div>
+        </div>
+        <div class="player-info">
+          <h3>Player</h3>
+          <div class="progress-bar">
+            <div class="bar player-health-bar" id="player-health-bar"></div>
+          </div>
+          <div class="player-stats">
+            <ul>
+              <li><strong>Level:</strong> <span id="level"></span></li>
+              <li><strong>Experience:</strong> <span id="experience"></span>/<span id="experience-needed"></span></li>
+              <li><strong>Health:</strong> <span id="current-health"></span>/<span id="max-health"></span></li>
+              <li><strong>Constitution:</strong> <span id="constitution"></span></li>
+              <li><strong>Strength:</strong> <span id="strength"></span></li>
+              <li><strong>Intelligence:</strong> <span id="intelligence"></span></li>
+              <li><strong>Speed:</strong> <span id="speed"></span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <textarea id="log" class="log" readonly></textarea>
       <button id="start-combat" onclick="startCombat()">Start Combat</button>
-      <div class="player-stats">
-        <ul>
-          <li><strong>Level:</strong> <span id="level"></span></li>
-          <li><strong>Experience:</strong> <span id="experience"></span>/<span id="experience-needed"></span></li>
-          <li><strong>Health:</strong> <span id="current-health"></span>/<span id="max-health"></span></li>
-          <li><strong>Constitution:</strong> <span id="constitution"></span></li>
-          <li><strong>Strength:</strong> <span id="strength"></span></li>
-          <li><strong>Intelligence:</strong> <span id="intelligence"></span></li>
-          <li><strong>Speed:</strong> <span id="speed"></span></li>
-        </ul>
-      </div>
-      <div id="inventory" class="inventory">
-        <h3>Inventory</h3>
-        <ul id="item-list"></ul>
-      </div>
     </div>
 
     <div id="player-info" class="tab">
