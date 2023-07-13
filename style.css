@@ -1,7 +1,7 @@
 /* General Styles */
 
 body {
-  background-color: #222222;
+  background-color: #111111;
   color: #ffffff;
   font-family: Arial, sans-serif;
   margin: 0;
@@ -81,6 +81,24 @@ textarea {
   margin-bottom: 5px;
 }
 
+.combat-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.enemy-info,
+.player-info {
+  flex: 1;
+}
+
+.enemy-info h3,
+.player-info h3 {
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
 /* Tab Styles */
 
 .tabs {
@@ -112,6 +130,13 @@ textarea {
 
 .tab.active {
   display: block;
+}
+
+/* Text Log Scroll */
+
+.log {
+  overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 
 /* Responsive Styles */
