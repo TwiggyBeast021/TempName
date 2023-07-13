@@ -156,3 +156,9 @@ function updateStats() {
   charismaElement.textContent = "Charisma: " + Math.round(charisma);
   intelligenceElement.textContent = "Intelligence: " + Math.round(intelligence);
   logList.innerHTML +=
+    "<li>Score increased to " +
+    Math.round(score) +
+    ", Level increased to " +
+    Math.round(level) +
+    "</li>";
+}
