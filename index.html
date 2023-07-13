@@ -1,127 +1,40 @@
-html
 <!DOCTYPE html>
 <html>
 <head>
   <title>Incremental Game</title>
+
+  <!-- Add some CSS for the dark UI -->
   <style>
-    .progress-bar {
-      width: 200px;
-      height: 20px;
-      background-color: #f3f3f3;
-      border-radius: 5px;
-      margin-bottom: 10px;
-    }
-    
-    .progress-bar-fill {
-      height: 100%;
-      background-color: #4caf50;
-      border-radius: 5px;
+    body {
+      background-color: #000;
+      color: #fff;
     }
   </style>
 </head>
 <body>
   <h1>Incremental Game</h1>
-  
-  <p>Score: <span id="score">0</span></p>
-  <p>Generators: <span id="generators">0</span></p>
-  <div class="progress-bar">
-    <div id="generatorProgress" class="progress-bar-fill"></div>
-  </div>
-  <p>Modifiers: <span id="modifiers">0</span></p>
-  <div class="progress-bar">
-    <div id="modifierProgress" class="progress-bar-fill"></div>
-  </div>
-  
-  <button id="clickButton">Click Me!</button>
-  <button id="buyGeneratorButton">Buy Generator (Cost: 10)</button>
-  <button id="buyModifierButton">Buy Modifier (Cost: 20)</button>
-  
-  <script>
-    // Initialize variables
-    let score = 0;
-    let generators = 0;
-    let modifiers = 0;
-    let generatorCost = 10;
-    let modifierCost = 20;
-    let nextGeneratorCost = generatorCost;
-    let nextModifierCost = modifierCost;
-    
-    // Get elements
-    const scoreElement = document.getElementById("score");
-    const generatorsElement = document.getElementById("generators");
-    const modifiersElement = document.getElementById("modifiers");
-    const clickButton = document.getElementById("clickButton");
-    const buyGeneratorButton = document.getElementById("buyGeneratorButton");
-    const buyModifierButton = document.getElementById("buyModifierButton");
-    const generatorProgress = document.getElementById("generatorProgress");
-    const modifierProgress = document.getElementById("modifierProgress");
-    
-    // Update score function
-    function updateScore() {
-      scoreElement.textContent = score;
-    }
-    
-    // Update generators function
-    function updateGenerators() {
-      generatorsElement.textContent = generators;
-      generatorProgress.style.width = ((score >= nextGeneratorCost) ? 100 : (score / nextGeneratorCost) * 100) + "%";
-    }
-    
-    // Update modifiers function
-    function updateModifiers() {
-      modifiersElement.textContent = modifiers;
-      modifierProgress.style.width = ((score >= nextModifierCost) ? 100 : (score / nextModifierCost) * 100) + "%";
-    }
-    
-    // Update costs function
-    function updateCosts() {
-      buyGeneratorButton.textContent = `Buy Generator (Cost: ${generatorCost})`;
-      buyModifierButton.textContent = `Buy Modifier (Cost: ${modifierCost})`;
-    }
-    
-    // Click event listener
-    clickButton.addEventListener("click", function() {
-      score += (modifiers + 1);
-      updateScore();
-    });
-    
-    // Buy generator event listener
-    buyGeneratorButton.addEventListener("click", function() {
-      if (score >= generatorCost) {
-        score -= generatorCost;
-        generators++;
-        generatorCost *= 1.2;
-        nextGeneratorCost = generatorCost.toFixed(0);
-        updateScore();
-        updateGenerators();
-        updateCosts();
-      }
-    });
-    
-    // Buy modifier event listener
-    buyModifierButton.addEventListener("click", function() {
-      if (score >= modifierCost) {
-        score -= modifierCost;
-        modifiers++;
-        modifierCost *= 1.5;
-        nextModifierCost = modifierCost.toFixed(0);
-        updateScore();
-        updateModifiers();
-        updateCosts();
-      }
-    });
-    
-    // Auto-generate score based on generators
-    let generatorInterval = setInterval(function() {
-      score += modifiers;
-      updateScore();
-    }, 100);
-    
-    // Update generator progress and cost
-    setInterval(function() {
-      generatorProgress.style.width = ((score >= nextGeneratorCost) ? 100 : (score / nextGeneratorCost) * 100) + "%";
-      modifierProgress.style.width = ((score >= nextModifierCost) ? 100 : (score / nextModifierCost) * 100) + "%";
-    }, 100);
-  </script>
+
+  <p>Energy: <span id="energyDisplay">0</span></p>
+
+  <button id="clickButton">Click for Energy</button>
+
+  <h2>Generators</h2>
+
+  <!-- Example generator -->
+  <button id="generator1" disabled>Generator 1: Cost <span id="generator1Cost">10</span> Energy</button>
+
+  <h2>Modifiers</h2>
+
+  <!-- Example modifier -->
+  <button id="modifier1" disabled>Modifier 1: Cost <span id="modifier1Cost">100</span> Energy</button>
+
+  <!-- Add progress bars for the generators and modifiers -->
+  <p>Next Generator: <progress id="generatorProgress" max="100" value="0"></progress></p>
+  <p>Next Modifier: <progress id="modifierProgress" max="100" value="0"></progress></p>
+
+  <!-- Add a prestige button -->
+  <button id="prestigeButton" disabled>Prestige</button>
+
+  <script src="script.js"></script>
 </body>
 </html>
