@@ -1,0 +1,33 @@
+html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Incremental Game</title>
+</head>
+<body>
+  <h1>Incremental Game</h1>
+  
+  <p>Score: <span id="score">0</span></p>
+  <button id="clickButton">Click Me!</button>
+  
+  <script>
+    // Initialize score
+    let score = 0;
+    
+    // Get elements
+    const scoreElement = document.getElementById("score");
+    const clickButton = document.getElementById("clickButton");
+    
+    // Update score function
+    function updateScore() {
+      scoreElement.textContent = score;
+    }
+    
+    // Click event listener
+    clickButton.addEventListener("click", function() {
+      score++;
+      updateScore();
+    });
+  </script>
+</body>
+</html>
