@@ -11,12 +11,21 @@
       font-size: 16px;
     }
 
+    .tab-container {
+      display: flex;
+      justify-content: center;
+    }
+
     .tab {
       display: none;
     }
 
     .active {
       display: block;
+    }
+
+    .button-container {
+      display: flex;
     }
 
     .button {
@@ -111,6 +120,12 @@
       { name: 'Goblin', experience: 20, skillExperience: { skill1: 10, skill2: 5, skill3: 0 } },
       { name: 'Skeleton', experience: 30, skillExperience: { skill1: 5, skill2: 10, skill3: 0 } },
       { name: 'Orc', experience: 40, skillExperience: { skill1: 0, skill2: 5, skill3: 10 } },
+    ];
+
+    let counters = [
+      { name: 'Treasure Chest', description: 'You found a chest full of valuable items!' },
+      { name: 'Mysterious Statue', description: 'You stumble upon a mysterious statue. Its purpose is unknown.' },
+      { name: 'Ancient Relic', description: 'You uncover an ancient relic. Its power emanates through the air.' },
     ];
 
     // Function to update player info tab
@@ -232,6 +247,15 @@
       // Update player info and skills tabs
       updatePlayerInfoTab();
       updateSkillsTab();
+
+      // Check for random counters
+      const counterChance = Math.random();
+      if (counterChance < 0.2) {
+        const counterIndex = Math.floor(Math.random() * counters.length);
+        const counter = counters[counterIndex];
+
+        mainLog.textContent += `While exploring, you discover a ${counter.name}. ${counter.description}\n`;
+      }
     }
 
     // Function to open a specific tab
@@ -305,17 +329,20 @@
 <body>
   <h1>Into The Depths</h1>
 
-  <button id="explore-tab" class="button active">Explore</button>
-  <button id="info-tab" class="button">Player Info</button>
-  <button id="skills-tab" class="button">Skills</button>
-  <button id="inventory-tab" class="button">Inventory</button>
-  <button id="settings-tab" class="button">Settings</button>
+  <div class="tab-container">
+    <div class="button-container">
+      <button id="explore-tab" class="button active">Explore</button>
+      <button id="info-tab" class="button">Player Info</button>
+      <button id="skills-tab" class="button">Skills</button>
+      <button id="inventory-tab" class="button">Inventory</button>
+      <button id="settings-tab" class="button">Settings</button>
+    </div>
+  </div>
 
   <div id="explore" class="tab active">
     <h2>Explore</h2>
     <textarea id="main-log" class="textbox" readonly></textarea>
     <br>
-    <input type="text" id="floor-input" placeholder="Enter floor">
     <button id="delve-btn" class="button">Delve</button>
     <button id="explore-btn" class="button">Explore</button>
   </div>
