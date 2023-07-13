@@ -155,10 +155,5 @@ function updateStats() {
   perceptionElement.textContent = "Perception: " + Math.round(perception);
   charismaElement.textContent = "Charisma: " + Math.round(charisma);
   intelligenceElement.textContent = "Intelligence: " + Math.round(intelligence);
-  logList.innerHTML +=
-    "<li>Score increased to " +
-    Math.round(score) +
-    ", Level increased to " +
-    Math.round(level) +
-    "</li>";
+  logList.innerHTML += `<li>Stats updated</li>`;
 }
