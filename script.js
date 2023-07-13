@@ -12,9 +12,9 @@ let playerStats = {
 };
 
 let skills = {
-  skill1: { name: "Power Strike", level: 1, experience: 0, experienceNeeded: 50, description: "Increases attack power" },
-  skill2: { name: "Defensive Stance", level: 1, experience: 0, experienceNeeded: 50, description: "Increases defense" },
-  skill3: { name: "Healing Touch", level: 1, experience: 0, experienceNeeded: 50, description: "Restores health" }
+  criticalHit: { name: "Critical Hit", level: 1, experience: 0, experienceNeeded: 50, description: "Increases critical hit chance" },
+  dodge: { name: "Dodge", level: 1, experience: 0, experienceNeeded: 50, description: "Increases evasion chance" },
+  combat: { name: "Combat", level: 1, experience: 0, experienceNeeded: 50, description: "Increases attack damage" }
 };
 
 let inventory = [];
@@ -31,15 +31,18 @@ function updateStats() {
   document.getElementById("strength").textContent = playerStats.strength;
   document.getElementById("intelligence").textContent = playerStats.intelligence;
   document.getElementById("speed").textContent = playerStats.speed;
-  document.getElementById("skill1-level").textContent = skills.skill1.level;
-  document.getElementById("skill2-level").textContent = skills.skill2.level;
-  document.getElementById("skill3-level").textContent = skills.skill3.level;
-  document.getElementById("skill1-experience").textContent = skills.skill1.experience;
-  document.getElementById("skill2-experience").textContent = skills.skill2.experience;
-  document.getElementById("skill3-experience").textContent = skills.skill3.experience;
-  document.getElementById("skill1-experience-needed").textContent = skills.skill1.experienceNeeded;
-  document.getElementById("skill2-experience-needed").textContent = skills.skill2.experienceNeeded;
-  document.getElementById("skill3-experience-needed").textContent = skills.skill3.experienceNeeded;
+  document.getElementById("skill1-name").textContent = skills.criticalHit.name;
+  document.getElementById("skill1-level").textContent = skills.criticalHit.level;
+  document.getElementById("skill1-experience").textContent = skills.criticalHit.experience;
+  document.getElementById("skill1-experience-needed").textContent = skills.criticalHit.experienceNeeded;
+  document.getElementById("skill2-name").textContent = skills.dodge.name;
+  document.getElementById("skill2-level").textContent = skills.dodge.level;
+  document.getElementById("skill2-experience").textContent = skills.dodge.experience;
+  document.getElementById("skill2-experience-needed").textContent = skills.dodge.experienceNeeded;
+  document.getElementById("skill3-name").textContent = skills.combat.name;
+  document.getElementById("skill3-level").textContent = skills.combat.level;
+  document.getElementById("skill3-experience").textContent = skills.combat.experience;
+  document.getElementById("skill3-experience-needed").textContent = skills.combat.experienceNeeded;
 
   // Update experience bar
   const experienceBar = document.getElementById("experience-bar");
@@ -129,7 +132,7 @@ function battle() {
 function getCriticalHitChance(intelligence) {
   const baseCriticalHitChance = 0.15;
   const intelligenceModifier = 0.01;
-  return baseCriticalHitChance + (intelligence * intelligenceModifier);
+  return baseCriticalHitChance + intelligence * intelligenceModifier;
 }
 
 // Function to handle victory
@@ -190,9 +193,9 @@ function levelUp() {
   playerStats.speed += 2;
 
   // Increase skill experience requirements
-  skills.skill1.experienceNeeded *= 1.5;
-  skills.skill2.experienceNeeded *= 1.5;
-  skills.skill3.experienceNeeded *= 1.5;
+  skills.criticalHit.experienceNeeded *= 1.5;
+  skills.dodge.experienceNeeded *= 1.5;
+  skills.combat.experienceNeeded *= 1.5;
 
   // Log the level up
   log.value += `Congratulations! You reached level ${playerStats.level}.\n`;
@@ -212,12 +215,26 @@ function upgradeSkill(skillName) {
     skill.experience = 0;
     skill.experienceNeeded *= 1.5;
 
+    // Perform skill-specific actions based on the skill name
+    switch (skillName) {
+      case "criticalHit":
+        // Increase critical hit chance
+        playerStats.intelligence += 2;
+        break;
+      case "dodge":
+        // Increase evasion chance
+        playerStats.speed += 2;
+        break;
+      case "combat":
+        // Increase attack damage
+        playerStats.strength += 2;
+        break;
+    }
+
     // Log the skill upgrade
     log.value += `You upgraded ${skill.name} to level ${skill.level}.\n`;
     log.scrollTop = log.scrollHeight;
   }
-
-  // Update player stats or perform other skill-related actions
 
   // Update player stats display
   updateStats();
