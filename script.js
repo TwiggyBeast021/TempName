@@ -10,11 +10,12 @@ const increaseLevelButton = document.getElementById("increaseLevelButton");
 const logList = document.getElementById("logList");
 const progressBar = document.querySelector("#progressBar .progress");
 
-// Handle encounter button click
+// Handle increase score button click
 increaseScoreButton.addEventListener("click", function() {
     increaseStat("score", 1);
 });
 
+// Handle increase level button click
 increaseLevelButton.addEventListener("click", function() {
     increaseStat("level", 1);
 });
@@ -22,11 +23,13 @@ increaseLevelButton.addEventListener("click", function() {
 // Function to increase stats
 function increaseStat(stat, amount) {
     const interval = setInterval(function() {
-        if (score >= amount) {
+        if (amount <= 0) {
             clearInterval(interval);
-            score -= amount;
-            level = Math.floor(score / 10) + 1;
             updateStats();
+        } else {
+            score += (stat === "score") ? 1 : 0;
+            level += (stat === "level") ? 1 : 0;
+            amount--;
         }
     }, 1000);
 
