@@ -1,123 +1,173 @@
 const player = {
   name: "Player",
+  health: 100,
+  maxHealth: 100,
+  damage: 10,
   level: 1,
   experience: 0,
   experienceNeeded: 100,
-  maxHealth: 100,
-  currentHealth: 100,
-  constitution: 5,
-  strength: 5,
-  intelligence: 5,
-  speed: 5,
-  defense: 5,
-  criticalChance: 0.15,
-  criticalDamageMultiplier: 1.5,
-  dodgeChance: 0.1,
+  gold: 0,
+  skills: {
+    attack: {
+      level: 1,
+      damageMultiplier: 1.2,
+    },
+    defense: {
+      level: 1,
+      damageReduction: 0.1,
+    },
+    healing: {
+      level: 1,
+      healingAmount: 20,
+    },
+  },
 };
 
 const enemy = {
   name: "Enemy",
-  maxHealth: 20,
-  currentHealth: 20,
-  attack: 5,
+  health: 50,
+  maxHealth: 50,
+  damage: 5,
+  gold: 10,
 };
 
-const skills = [
-  { name: "Attack", level: 1, experience: 0, experienceNeeded: 100 },
-  { name: "Defense", level: 1, experience: 0, experienceNeeded: 100 },
-  { name: "Critical Hit", level: 1, experience: 0, experienceNeeded: 100 },
-  { name: "Dodge", level: 1, experience: 0, experienceNeeded: 100 },
-];
+const attackBtn = document.getElementById("attack-btn");
+const lootBtn = document.getElementById("loot-btn");
+const resetBtn = document.getElementById("reset-btn");
+const log = document.getElementById("log");
 
-function startCombat() {
-  document.getElementById("start-combat").disabled = true;
-  document.getElementById("log").innerHTML = "";
-
-  while (player.currentHealth > 0 && enemy.currentHealth > 0) {
-    playerAttack();
-    if (enemy.currentHealth > 0) {
-      enemyAttack();
-    }
+attackBtn.addEventListener("click", () => {
+  playerAttack();
+  if (enemy.health > 0) {
+    enemyAttack();
   }
+});
 
-  if (player.currentHealth <= 0) {
-    document.getElementById("log").innerHTML += "<p>You have been defeated!</p>";
-  } else {
-    document.getElementById("log").innerHTML += "<p>You defeated the enemy!</p>";
-    player.experience += 50;
-    checkLevelUp();
-  }
+lootBtn.addEventListener("click", () => {
+  lootEnemy();
+});
 
-  document.getElementById("start-combat").disabled = false;
-}
+resetBtn.addEventListener("click", () => {
+  resetGame();
+});
 
 function playerAttack() {
-  const damage = calculateDamage(player.strength, enemy.defense);
-  enemy.currentHealth -= damage;
+  const playerDamage = calculateDamage(player.damage * player.skills.attack.damageMultiplier);
+  enemy.health -= playerDamage;
 
-  document.getElementById("log").innerHTML += "<p>You attacked the enemy for " + damage.toFixed(2) + " damage.</p>";
-  updateHealthBars();
+  logMessage("Player attacked the enemy for " + playerDamage + " damage.");
+
+  if (enemy.health <= 0) {
+    logMessage("Player defeated the enemy!");
+    player.experience += 50;
+    player.gold += enemy.gold;
+    checkLevelUp();
+    generateNewEnemy();
+  }
 }
 
 function enemyAttack() {
-  const damage = calculateDamage(enemy.attack, player.defense);
-  player.currentHealth -= damage;
+  const enemyDamage = calculateDamage(enemy.damage - player.skills.defense.damageReduction);
+  player.health -= enemyDamage;
 
-  document.getElementById("log").innerHTML += "<p>The enemy attacked you for " + damage.toFixed(2) + " damage.</p>";
-  updateHealthBars();
+  logMessage("Enemy attacked the player for " + enemyDamage + " damage.");
+
+  if (player.health <= 0) {
+    logMessage("Player has been defeated!");
+    attackBtn.disabled = true;
+    lootBtn.disabled = true;
+  }
 }
 
-function calculateDamage(attack, defense) {
-  const baseDamage = attack - defense;
-  const randomModifier = Math.random() * 0.2 + 0.9;
-  const damage = baseDamage * randomModifier;
-
-  return damage;
+function calculateDamage(damage) {
+  return Math.floor(Math.random() * (damage + 1));
 }
 
-function updateHealthBars() {
-  const playerHealthBar = document.getElementById("player-health-bar");
-  const enemyHealthBar = document.getElementById("enemy-health-bar");
-
-  const playerHealthPercentage = (player.currentHealth / player.maxHealth) * 100;
-  const enemyHealthPercentage = (enemy.currentHealth / enemy.maxHealth) * 100;
-
-  playerHealthBar.style.width = playerHealthPercentage + "%";
-  enemyHealthBar.style.width = enemyHealthPercentage + "%";
-
-  document.getElementById("player-health-text").textContent = "HP: " + player.currentHealth.toFixed(2) + " / " + player.maxHealth.toFixed(2);
-  document.getElementById("enemy-health-text").textContent = "HP: " + enemy.currentHealth.toFixed(2) + " / " + enemy.maxHealth.toFixed(2);
+function logMessage(message) {
+  log.innerHTML += "<p>" + message + "</p>";
+  log.scrollTop = log.scrollHeight;
 }
 
 function checkLevelUp() {
   if (player.experience >= player.experienceNeeded) {
     player.level++;
     player.experience -= player.experienceNeeded;
+    player.damage += 5;
     player.experienceNeeded += player.level * 100;
-    player.maxHealth += player.constitution * 10;
-    player.strength += player.level;
-    player.intelligence += player.level;
-    player.speed += player.level;
-    player.defense += player.level;
-    player.criticalChance += 0.02;
-    player.criticalDamageMultiplier += 0.1;
-    player.dodgeChance += 0.02;
 
-    updatePlayerStats();
+    logMessage(
+      "Congratulations! You leveled up to level " +
+        player.level +
+        ". Damage increased to " +
+        player.damage +
+        "."
+    );
   }
+
+  document.getElementById("player-level").textContent = player.level;
+  document.getElementById("player-gold").textContent = player.gold;
+  document.getElementById("player-experience").textContent = player.experience;
+  document.getElementById("attack-skill-level").textContent = player.skills.attack.level;
+  document.getElementById("defense-skill-level").textContent = player.skills.defense.level;
+  document.getElementById("healing-skill-level").textContent = player.skills.healing.level;
 }
 
-function updatePlayerStats() {
-  document.getElementById("level").textContent = player.level;
-  document.getElementById("constitution").textContent = player.constitution;
-  document.getElementById("strength").textContent = player.strength;
-  document.getElementById("intelligence").textContent = player.intelligence;
-  document.getElementById("speed").textContent = player.speed;
-  document.getElementById("defense").textContent = player.defense;
-  document.getElementById("critical-chance").textContent = (player.criticalChance * 100).toFixed(2) + "%";
-  document.getElementById("critical-damage").textContent = player.criticalDamageMultiplier.toFixed(2) + "x";
-  document.getElementById("dodge-chance").textContent = (player.dodgeChance * 100).toFixed(2) + "%";
+function generateNewEnemy() {
+  const enemyLevel = player.level * 2;
+  enemy.health = 50 + enemyLevel * 10;
+  enemy.maxHealth = enemy.health;
+  enemy.damage = 5 + enemyLevel * 2;
+  enemy.gold = 10 + enemyLevel * 5;
+
+  document.getElementById("enemy-health").textContent = enemy.health;
+  document.getElementById("enemy-damage").textContent = enemy.damage;
 }
 
-updateHealthBars();
-updatePlayerStats();
+function lootEnemy() {
+  player.gold += enemy.gold;
+  logMessage("You looted " + enemy.gold + " gold from the enemy.");
+
+  checkLevelUp();
+  generateNewEnemy();
+}
+
+function resetGame() {
+  player.health = player.maxHealth;
+  player.damage = 10;
+  player.level = 1;
+  player.experience = 0;
+  player.experienceNeeded = 100;
+  player.gold = 0;
+  player.skills.attack.level = 1;
+  player.skills.defense.level = 1;
+  player.skills.healing.level = 1;
+
+  enemy.health = enemy.maxHealth;
+  enemy.damage = 5;
+  enemy.gold = 10;
+
+  log.innerHTML = "";
+  attackBtn.disabled = false;
+  lootBtn.disabled = false;
+  document.getElementById("player-health").textContent = player.health;
+  document.getElementById("player-damage").textContent = player.damage;
+  document.getElementById("player-level").textContent = player.level;
+  document.getElementById("player-gold").textContent = player.gold;
+  document.getElementById("player-experience").textContent = player.experience;
+  document.getElementById("attack-skill-level").textContent = player.skills.attack.level;
+  document.getElementById("defense-skill-level").textContent = player.skills.defense.level;
+  document.getElementById("healing-skill-level").textContent = player.skills.healing.level;
+  document.getElementById("enemy-health").textContent = enemy.health;
+  document.getElementById("enemy-damage").textContent = enemy.damage;
+}
+
+document.getElementById("player-health").textContent = player.health;
+document.getElementById("player-damage").textContent = player.damage;
+document.getElementById("player-level").textContent = player.level;
+document.getElementById("player-gold").textContent = player.gold;
+document.getElementById("player-experience").textContent = player.experience;
+document.getElementById("attack-skill-level").textContent = player.skills.attack.level;
+document.getElementById("defense-skill-level").textContent = player.skills.defense.level;
+document.getElementById("healing-skill-level").textContent = player.skills.healing.level;
+document.getElementById("enemy-health").textContent = enemy.health;
+document.getElementById("enemy-damage").textContent = enemy.damage;
