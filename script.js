@@ -11,20 +11,15 @@ let playerStats = {
   speed: 6
 };
 
-let encounters = [
-  { name: "Goblin", experience: 5, health: 20, attack: 8, loot: { gold: 10 } },
-  { name: "Skeleton", experience: 10, health: 30, attack: 12, loot: { gold: 20, item: "Sword" } },
-  { name: "Orc", experience: 15, health: 40, attack: 16, loot: { gold: 30, item: "Armor" } },
-  { name: "Dragon", experience: 20, health: 50, attack: 20, loot: { gold: 50, item: "Fire Breath" } }
-];
-
 let skills = {
-  skill1: { name: "Skill 1", level: 1, experience: 0, experienceNeeded: 50, description: "Increases attack power" },
-  skill2: { name: "Skill 2", level: 1, experience: 0, experienceNeeded: 50, description: "Increases defense" },
-  skill3: { name: "Skill 3", level: 1, experience: 0, experienceNeeded: 50, description: "Restores health" }
+  skill1: { name: "Power Strike", level: 1, experience: 0, experienceNeeded: 50, description: "Increases attack power" },
+  skill2: { name: "Defensive Stance", level: 1, experience: 0, experienceNeeded: 50, description: "Increases defense" },
+  skill3: { name: "Healing Touch", level: 1, experience: 0, experienceNeeded: 50, description: "Restores health" }
 };
 
 let inventory = [];
+
+let currentEnemy = null;
 
 // Function to update player stats
 function updateStats() {
@@ -56,9 +51,13 @@ function updateStats() {
   const healthPercentage = (playerStats.currentHealth / playerStats.maxHealth) * 100;
   healthBar.style.width = `${healthPercentage}%`;
 
-  // Update current health and max health display in explore tab
-  document.getElementById("current-health").textContent = playerStats.currentHealth;
-  document.getElementById("max-health").textContent = playerStats.maxHealth;
+  // Update enemy health bar
+  if (currentEnemy) {
+    const enemyHealthBar = document.getElementById("enemy-health-bar");
+    const enemyHealthPercentage = (currentEnemy.health / currentEnemy.maxHealth) * 100;
+    enemyHealthBar.style.width = `${enemyHealthPercentage}%`;
+    document.getElementById("enemy-health").textContent = currentEnemy.health;
+  }
 }
 
 // Function to open a specific tab
@@ -78,43 +77,67 @@ function openTab(tabName) {
 }
 
 // Function to handle encounters
-function encounter() {
-  const encounterIndex = Math.floor(Math.random() * encounters.length);
-  const encounter = encounters[encounterIndex];
-
-  // Battle the encounter
-  battle(encounter);
+function startCombat() {
+  if (!currentEnemy) {
+    const encounterIndex = Math.floor(Math.random() * encounters.length);
+    currentEnemy = { ...encounters[encounterIndex] };
+    log.value += `You encountered a ${currentEnemy.name}!\n`;
+    log.scrollTop = log.scrollHeight;
+    updateStats();
+  }
 }
 
 // Function to handle battles
-function battle(enemy) {
-  const playerAttack = Math.floor(Math.random() * playerStats.strength);
-  const enemyAttack = Math.floor(Math.random() * enemy.attack);
+function battle() {
+  const playerAttackSpeed = playerStats.speed;
+  const enemyAttackSpeed = currentEnemy.speed;
 
-  // Deduct health based on attack damage
-  playerStats.currentHealth -= enemy.attack;
-  enemy.health -= playerAttack;
+  // Player attack
+  if (Math.random() < getCriticalHitChance(playerStats.intelligence)) {
+    const playerAttackDamage = playerStats.strength * 1.5;
+    currentEnemy.health -= playerAttackDamage;
+    log.value += `You critically hit the ${currentEnemy.name} for ${playerAttackDamage} damage!\n`;
+  } else {
+    const playerAttackDamage = playerStats.strength;
+    currentEnemy.health -= playerAttackDamage;
+    log.value += `You hit the ${currentEnemy.name} for ${playerAttackDamage} damage.\n`;
+  }
+
+  // Enemy attack
+  const enemyAttackDamage = currentEnemy.attack;
+  playerStats.currentHealth -= enemyAttackDamage;
+  log.value += `The ${currentEnemy.name} hits you for ${enemyAttackDamage} damage.\n`;
 
   // Check if the player or enemy is defeated
   if (playerStats.currentHealth <= 0) {
+    playerStats.currentHealth = 0;
     passOut();
     return;
   }
 
-  if (enemy.health <= 0) {
-    victory(enemy);
+  if (currentEnemy.health <= 0) {
+    victory();
     return;
   }
 
   // Log the battle outcome
-  const log = document.getElementById("log");
-  log.value += `You attack the ${enemy.name} for ${playerAttack} damage. The ${enemy.name} attacks you for ${enemy.attack} damage.\n`;
   log.scrollTop = log.scrollHeight;
+  updateStats();
+}
+
+// Function to calculate critical hit chance based on intelligence
+function getCriticalHitChance(intelligence) {
+  const baseCriticalHitChance = 0.15;
+  const intelligenceModifier = 0.01;
+  return baseCriticalHitChance + (intelligence * intelligenceModifier);
 }
 
 // Function to handle victory
-function victory(enemy) {
-  playerStats.experience += enemy.experience;
+function victory() {
+  const enemyLoot = currentEnemy.loot;
+
+  // Grant experience
+  playerStats.experience += currentEnemy.experience;
 
   // Check if the player leveled up
   if (playerStats.experience >= playerStats.experienceNeeded) {
@@ -122,25 +145,22 @@ function victory(enemy) {
   }
 
   // Grant loot rewards
-  if (enemy.loot) {
-    if (enemy.loot.gold) {
-      // Grant gold
-      log.value += `You find ${enemy.loot.gold} gold.\n`;
+  if (enemyLoot) {
+    if (enemyLoot.gold) {
+      log.value += `You find ${enemyLoot.gold} gold.\n`;
       // TODO: Add gold to player's inventory or currency
     }
-    if (enemy.loot.item) {
-      // Grant item
-      log.value += `You find a ${enemy.loot.item}.\n`;
-      inventory.push(enemy.loot.item);
+    if (enemyLoot.item) {
+      log.value += `You find a ${enemyLoot.item}.\n`;
+      inventory.push(enemyLoot.item);
       // Update inventory display
       updateInventory();
     }
   }
 
   // Log the victory
-  const log = document.getElementById("log");
-  log.value += `You defeat the ${enemy.name}! You gain ${enemy.experience} experience.\n`;
-  log.scrollTop = log.scrollHeight;
+  log.value += `You defeat the ${currentEnemy.name}! You gain ${currentEnemy.experience} experience.\n`;
+  currentEnemy = null;
 
   // Update player stats display
   updateStats();
@@ -150,11 +170,8 @@ function victory(enemy) {
 function passOut() {
   playerStats.currentHealth = playerStats.maxHealth * 0.5; // Reset health to half of max
   playerStats.experience = Math.floor(playerStats.experience * 0.5); // Lose half of experience
-
-  // Log passing out
-  const log = document.getElementById("log");
   log.value += "You pass out and wake up with reduced health and experience.\n";
-  log.scrollTop = log.scrollHeight;
+  currentEnemy = null;
 
   // Update player stats display
   updateStats();
@@ -168,9 +185,9 @@ function levelUp() {
 
   // Increase player's stats upon leveling up
   playerStats.constitution += 2;
-  playerStats.strength += 1;
-  playerStats.intelligence += 1;
-  playerStats.speed += 1;
+  playerStats.strength += 2;
+  playerStats.intelligence += 2;
+  playerStats.speed += 2;
 
   // Increase skill experience requirements
   skills.skill1.experienceNeeded *= 1.5;
@@ -178,9 +195,7 @@ function levelUp() {
   skills.skill3.experienceNeeded *= 1.5;
 
   // Log the level up
-  const log = document.getElementById("log");
   log.value += `Congratulations! You reached level ${playerStats.level}.\n`;
-  log.scrollTop = log.scrollHeight;
 
   // Update player stats display
   updateStats();
@@ -198,7 +213,6 @@ function upgradeSkill(skillName) {
     skill.experienceNeeded *= 1.5;
 
     // Log the skill upgrade
-    const log = document.getElementById("log");
     log.value += `You upgraded ${skill.name} to level ${skill.level}.\n`;
     log.scrollTop = log.scrollHeight;
   }
@@ -224,12 +238,10 @@ function updateInventory() {
 // Function to handle game over
 function gameOver() {
   // Log the game over
-  const log = document.getElementById("log");
   log.value += "Game Over! You have been defeated.\n";
-  log.scrollTop = log.scrollHeight;
 
   // Disable encounter button
-  document.querySelector("#explore button").disabled = true;
+  document.getElementById("start-combat").disabled = true;
 }
 
 // Initialize the game
