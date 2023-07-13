@@ -1,39 +1,27 @@
+html
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Incremental Game</title>
-
-  <!-- Add some CSS for the dark UI -->
-  <style>
-    body {
-      background-color: #000;
-      color: #fff;
-    }
-  </style>
+  <title>Harness the Sun</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-  <h1>Incremental Game</h1>
-
-  <p>Energy: <span id="energyDisplay">0</span></p>
-
-  <button id="clickButton">Click for Energy</button>
-
-  <h2>Generators</h2>
-
-  <!-- Example generator -->
-  <button id="generator1" disabled>Generator 1: Cost <span id="generator1Cost">10</span> Energy</button>
-
-  <h2>Modifiers</h2>
-
-  <!-- Example modifier -->
-  <button id="modifier1" disabled>Modifier 1: Cost <span id="modifier1Cost">100</span> Energy</button>
-
-  <!-- Add progress bars for the generators and modifiers -->
-  <p>Next Generator: <progress id="generatorProgress" max="100" value="0"></progress></p>
-  <p>Next Modifier: <progress id="modifierProgress" max="100" value="0"></progress></p>
-
-  <!-- Add a prestige button -->
-  <button id="prestigeButton" disabled>Prestige</button>
+  <div class="container">
+    <h1>Harness the Sun</h1>
+    <div class="resources">
+      <p>Energy: <span id="energy">0</span></p>
+      <p>Metal: <span id="metal">0</span></p>
+    </div>
+    <button id="scavenge">Scavenge</button>
+    <button id="generateEnergy" disabled>Generate Energy</button>
+    <button id="createFlashlight" disabled>Create Flashlight</button>
+    <button id="createGenerator" disabled>Create Tier One Generator</button>
+    <button id="adventure" disabled>Go on an Adventure</button>
+    <div class="progress-bar">
+      <div id="adventureProgressbar" class="progress-bar-inner"></div>
+    </div>
+    <div id="adventureLog"></div>
+  </div>
 
   <script src="script.js"></script>
 </body>
