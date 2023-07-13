@@ -43,6 +43,8 @@ html
     let modifiers = 0;
     let generatorCost = 10;
     let modifierCost = 20;
+    let nextGeneratorCost = generatorCost;
+    let nextModifierCost = modifierCost;
     
     // Get elements
     const scoreElement = document.getElementById("score");
@@ -56,25 +58,25 @@ html
     
     // Update score function
     function updateScore() {
-      scoreElement.textContent = score.toFixed(1);
+      scoreElement.textContent = score;
     }
     
     // Update generators function
     function updateGenerators() {
-      generatorsElement.textContent = generators.toFixed(1);
-      generatorProgress.style.width = (generators / 10) * 100 + "%";
+      generatorsElement.textContent = generators;
+      generatorProgress.style.width = ((score >= nextGeneratorCost) ? 100 : (score / nextGeneratorCost) * 100) + "%";
     }
     
     // Update modifiers function
     function updateModifiers() {
-      modifiersElement.textContent = modifiers.toFixed(1);
-      modifierProgress.style.width = (modifiers / 10) * 100 + "%";
+      modifiersElement.textContent = modifiers;
+      modifierProgress.style.width = ((score >= nextModifierCost) ? 100 : (score / nextModifierCost) * 100) + "%";
     }
     
     // Update costs function
     function updateCosts() {
-      buyGeneratorButton.textContent = `Buy Generator (Cost: ${generatorCost.toFixed(1)})`;
-      buyModifierButton.textContent = `Buy Modifier (Cost: ${modifierCost.toFixed(1)})`;
+      buyGeneratorButton.textContent = `Buy Generator (Cost: ${generatorCost})`;
+      buyModifierButton.textContent = `Buy Modifier (Cost: ${modifierCost})`;
     }
     
     // Click event listener
@@ -89,6 +91,7 @@ html
         score -= generatorCost;
         generators++;
         generatorCost *= 1.2;
+        nextGeneratorCost = generatorCost.toFixed(0);
         updateScore();
         updateGenerators();
         updateCosts();
@@ -101,6 +104,7 @@ html
         score -= modifierCost;
         modifiers++;
         modifierCost *= 1.5;
+        nextModifierCost = modifierCost.toFixed(0);
         updateScore();
         updateModifiers();
         updateCosts();
@@ -108,10 +112,16 @@ html
     });
     
     // Auto-generate score based on generators
-    setInterval(function() {
-      score += (generators * modifiers);
+    let generatorInterval = setInterval(function() {
+      score += modifiers;
       updateScore();
-    }, 1000);
+    }, 100);
+    
+    // Update generator progress and cost
+    setInterval(function() {
+      generatorProgress.style.width = ((score >= nextGeneratorCost) ? 100 : (score / nextGeneratorCost) * 100) + "%";
+      modifierProgress.style.width = ((score >= nextModifierCost) ? 100 : (score / nextModifierCost) * 100) + "%";
+    }, 100);
   </script>
 </body>
 </html>
