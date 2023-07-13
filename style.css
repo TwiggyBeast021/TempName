@@ -1,16 +1,70 @@
 body {
     text-align: center;
+    background-color: #222;
+    color: #eee;
+    font-size: 20px;
 }
 
 h1 {
-    color: #333;
+    color: #ccc;
+    font-size: 40px;
+    margin-top: 30px;
 }
 
 #stats {
     margin-bottom: 20px;
 }
 
+#log {
+    margin-bottom: 20px;
+}
+
+#log h2 {
+    color: #ccc;
+    font-size: 24px;
+}
+
+#logList {
+    list-style-type: none;
+    text-align: left;
+    padding: 0;
+}
+
+#logList li {
+    margin-bottom: 5px;
+}
+
+#actions {
+    margin-bottom: 20px;
+}
+
+#actions h2 {
+    color: #ccc;
+    font-size: 24px;
+}
+
 button {
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 20px;
+    background-color: #444;
+    color: #eee;
+    border: none;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+#progressBar {
+    width: 200px;
+    height: 20px;
+    background-color: #444;
+    border-radius: 10px;
+    margin: 0 auto;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+#progressBar .progress {
+    height: 100%;
+    background-color: #ccc;
+    transition: width 0.5s;
 }
