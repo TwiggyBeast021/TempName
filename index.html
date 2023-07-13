@@ -10,112 +10,25 @@
 
 <body>
   <div class="game-container">
-    <div class="tabs">
-      <button class="tab-button active" data-tab="explore" onclick="openTab('explore')">Explore</button>
-      <button class="tab-button" data-tab="player-info" onclick="openTab('player-info')">Player Info</button>
-      <button class="tab-button" data-tab="skills" onclick="openTab('skills')">Skills</button>
-      <button class="tab-button" data-tab="inventory" onclick="openTab('inventory')">Inventory</button>
-      <button class="tab-button" data-tab="settings" onclick="openTab('settings')">Settings</button>
-    </div>
-
     <div id="explore" class="tab active">
       <h2>Into The Depths</h2>
       <textarea id="log" class="log" readonly></textarea>
       <button id="start-combat" onclick="startCombat()">Start Combat</button>
-      <button id="attack" onclick="attack()" disabled>Attack</button>
-      <div class="progress-bar">
-        <div id="experience-bar" class="bar"></div>
-      </div>
-      <div class="progress-bar">
-        <div id="health-bar" class="bar"></div>
-      </div>
-      <div class="progress-bar">
-        <div id="enemy-health-bar" class="bar"></div>
-      </div>
-      <div id="player-stats" class="player-stats">
+      <div class="player-stats">
         <ul>
           <li><strong>Level:</strong> <span id="level"></span></li>
           <li><strong>Experience:</strong> <span id="experience"></span>/<span id="experience-needed"></span></li>
-          <li><strong>Health:</strong> <span id="current-health"></span>/<span id="health"></span></li>
-        </ul>
-      </div>
-      <div class="complex-stats">
-        <h3>Complex Stats</h3>
-        <ul>
-          <li><strong>Attack Damage:</strong> <span id="attack-damage"></span></li>
-          <li><strong>Attack Speed:</strong> <span id="attack-speed"></span></li>
-          <li><strong>Critical Hit Chance:</strong> <span id="critical-hit-chance"></span></li>
-          <li><strong>Critical Hit Damage:</strong> <span id="critical-hit-damage"></span></li>
-        </ul>
-      </div>
-    </div>
-
-    <div id="player-info" class="tab">
-      <h2>Player Info</h2>
-      <div class="section">
-        <h3>Basic Stats</h3>
-        <ul>
-          <li><strong>Level:</strong> <span id="level"></span></li>
-          <li><strong>Experience:</strong> <span id="experience"></span>/<span id="experience-needed"></span></li>
-          <li><strong>Health:</strong> <span id="current-health"></span>/<span id="health"></span></li>
+          <li><strong>Health:</strong> <span id="current-health"></span>/<span id="max-health"></span></li>
           <li><strong>Constitution:</strong> <span id="constitution"></span></li>
           <li><strong>Strength:</strong> <span id="strength"></span></li>
           <li><strong>Intelligence:</strong> <span id="intelligence"></span></li>
           <li><strong>Speed:</strong> <span id="speed"></span></li>
         </ul>
       </div>
-      <div class="section">
-        <h3>Skills</h3>
-        <ul>
-          <li><strong>Critical Hit:</strong> Level <span id="skill1-level"></span> (<span id="skill1-progress"></span>)</li>
-          <button onclick="upgradeSkill('criticalHit')" disabled>Upgrade</button>
-          <li><strong>Dodge:</strong> Level <span id="skill2-level"></span> (<span id="skill2-progress"></span>)</li>
-          <button onclick="upgradeSkill('dodge')" disabled>Upgrade</button>
-          <li><strong>Combat:</strong> Level <span id="skill3-level"></span> (<span id="skill3-progress"></span>)</li>
-          <button onclick="upgradeSkill('combat')" disabled>Upgrade</button>
-        </ul>
+      <div id="inventory" class="inventory">
+        <h3>Inventory</h3>
+        <ul id="item-list"></ul>
       </div>
-    </div>
-
-    <div id="skills" class="tab">
-      <h2>Skills</h2>
-      <section>
-        <h3>Critical Hit</h3>
-        <div class="progress-bar">
-          <div id="skill1-bar" class="bar"></div>
-        </div>
-        <p><strong>Level:</strong> <span id="skill1-level"></span> (<span id="skill1-progress"></span>)</p>
-        <p><strong>Description:</strong> Increases critical hit chance</p>
-        <button onclick="upgradeSkill('criticalHit')" disabled>Upgrade</button>
-      </section>
-      <section>
-        <h3>Dodge</h3>
-        <div class="progress-bar">
-          <div id="skill2-bar" class="bar"></div>
-        </div>
-        <p><strong>Level:</strong> <span id="skill2-level"></span> (<span id="skill2-progress"></span>)</p>
-        <p><strong>Description:</strong> Increases evasion chance</p>
-        <button onclick="upgradeSkill('dodge')" disabled>Upgrade</button>
-      </section>
-      <section>
-        <h3>Combat</h3>
-        <div class="progress-bar">
-          <div id="skill3-bar" class="bar"></div>
-        </div>
-        <p><strong>Level:</strong> <span id="skill3-level"></span> (<span id="skill3-progress"></span>)</p>
-        <p><strong>Description:</strong> Increases attack damage</p>
-        <button onclick="upgradeSkill('combat')" disabled>Upgrade</button>
-      </section>
-    </div>
-
-    <div id="inventory" class="tab">
-      <h2>Inventory</h2>
-      <ul id="item-list"></ul>
-    </div>
-
-    <div id="settings" class="tab">
-      <h2>Settings</h2>
-      <!-- Add your settings UI here -->
     </div>
   </div>
   <script src="script.js"></script>
