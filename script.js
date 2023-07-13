@@ -106,4 +106,75 @@ function victory(enemy) {
       // TODO: Add gold to player's inventory or currency
     }
     if (enemy.loot.item) {
-      // Grant
+      // Grant item
+      log.value += `You find a ${enemy.loot.item}.\n`;
+      inventory.push(enemy.loot.item);
+      // Update inventory display
+      updateInventory();
+    }
+  }
+
+  // Log the victory
+  const log = document.getElementById("log");
+  log.value += `You defeat the ${enemy.name}! You gain ${enemy.experience} experience.\n`;
+  log.scrollTop = log.scrollHeight;
+}
+
+// Function to handle level up
+function levelUp() {
+  playerStats.level++;
+  playerStats.maxHealth += 10;
+  playerStats.currentHealth = playerStats.maxHealth;
+  playerStats.experience = 0;
+
+  // Log the level up
+  const log = document.getElementById("log");
+  log.value += `Congratulations! You reached level ${playerStats.level}.\n`;
+  log.scrollTop = log.scrollHeight;
+
+  // Update player stats display
+  updateStats();
+}
+
+// Function to upgrade a skill
+function upgradeSkill(skillName) {
+  const skill = skills[skillName];
+  skill.level++;
+
+  // Log the skill upgrade
+  const log = document.getElementById("log");
+  log.value += `You upgraded ${skill.name} to level ${skill.level}.\n`;
+  log.scrollTop = log.scrollHeight;
+
+  // Update player stats or perform other skill-related actions
+
+  // Update player stats display
+  updateStats();
+}
+
+// Function to update inventory display
+function updateInventory() {
+  const itemList = document.getElementById("item-list");
+  itemList.innerHTML = "";
+
+  for (let i = 0; i < inventory.length; i++) {
+    const listItem = document.createElement("li");
+    listItem.textContent = inventory[i];
+    itemList.appendChild(listItem);
+  }
+}
+
+// Function to handle game over
+function gameOver() {
+  // Log the game over
+  const log = document.getElementById("log");
+  log.value += "Game Over! You have been defeated.\n";
+  log.scrollTop = log.scrollHeight;
+
+  // Disable encounter button
+  document.querySelector("#explore button").disabled = true;
+}
+
+// Initialize the game
+updateStats();
+openTab("explore");
