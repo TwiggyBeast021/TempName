@@ -10,6 +10,12 @@
 
 <body>
   <div class="game-container">
+    <div class="tabs">
+      <button class="tab-button active" data-tab="explore" onclick="openTab('explore')">Explore</button>
+      <button class="tab-button" data-tab="player-info" onclick="openTab('player-info')">Player Info</button>
+      <button class="tab-button" data-tab="inventory" onclick="openTab('inventory')">Inventory</button>
+    </div>
+
     <div id="explore" class="tab active">
       <h2>Into The Depths</h2>
       <textarea id="log" class="log" readonly></textarea>
@@ -29,6 +35,26 @@
         <h3>Inventory</h3>
         <ul id="item-list"></ul>
       </div>
+    </div>
+
+    <div id="player-info" class="tab">
+      <h2>Player Info</h2>
+      <div class="player-stats">
+        <ul>
+          <li><strong>Level:</strong> <span id="level"></span></li>
+          <li><strong>Experience:</strong> <span id="experience"></span>/<span id="experience-needed"></span></li>
+          <li><strong>Health:</strong> <span id="current-health"></span>/<span id="max-health"></span></li>
+          <li><strong>Constitution:</strong> <span id="constitution"></span></li>
+          <li><strong>Strength:</strong> <span id="strength"></span></li>
+          <li><strong>Intelligence:</strong> <span id="intelligence"></span></li>
+          <li><strong>Speed:</strong> <span id="speed"></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="inventory" class="tab">
+      <h2>Inventory</h2>
+      <ul id="item-list"></ul>
     </div>
   </div>
   <script src="script.js"></script>
