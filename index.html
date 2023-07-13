@@ -4,10 +4,37 @@ html
 <head>
   <title>Incremental Game</title>
   <style>
+    body {
+      background-color: #222;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+    
+    h1 {
+      margin-top: 0;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .score-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .score-container p {
+      margin: 0;
+    }
+    
     .progress-bar {
-      width: 200px;
+      width: 100%;
       height: 20px;
-      background-color: #f3f3f3;
+      background-color: #333;
       border-radius: 5px;
       margin-bottom: 10px;
     }
@@ -17,25 +44,46 @@ html
       background-color: #4caf50;
       border-radius: 5px;
     }
+    
+    .button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .button:hover {
+      background-color: #555;
+    }
   </style>
 </head>
 <body>
-  <h1>Incremental Game</h1>
-  
-  <p>Score: <span id="score">0</span></p>
-  <p>Generators: <span id="generators">0</span></p>
-  <div class="progress-bar">
-    <div id="generatorProgress" class="progress-bar-fill"></div>
+  <div class="container">
+    <h1>Incremental Game</h1>
+    
+    <div class="score-container">
+      <p>Score: <span id="score">0</span></p>
+      <p>Generators: <span id="generators">0</span></p>
+    </div>
+    <div class="progress-bar">
+      <div id="generatorProgress" class="progress-bar-fill"></div>
+    </div>
+    
+    <div class="score-container">
+      <p>Modifiers: <span id="modifiers">0</span></p>
+    </div>
+    <div class="progress-bar">
+      <div id="modifierProgress" class="progress-bar-fill"></div>
+    </div>
+    
+    <button id="clickButton" class="button">Click Me!</button>
+    <button id="buyGeneratorButton" class="button">Buy Generator (Cost: 10)</button>
+    <button id="buyModifierButton" class="button">Buy Modifier (Cost: 20)</button>
   </div>
-  <p>Modifiers: <span id="modifiers">0</span></p>
-  <div class="progress-bar">
-    <div id="modifierProgress" class="progress-bar-fill"></div>
-  </div>
-  
-  <button id="clickButton">Click Me!</button>
-  <button id="buyGeneratorButton">Buy Generator (Cost: 10)</button>
-  <button id="buyModifierButton">Buy Modifier (Cost: 20)</button>
-  
+
   <script>
     // Initialize variables
     let score = 0;
@@ -45,83 +93,10 @@ html
     let modifierCost = 20;
     let nextGeneratorCost = generatorCost;
     let nextModifierCost = modifierCost;
-    
+
     // Get elements
     const scoreElement = document.getElementById("score");
     const generatorsElement = document.getElementById("generators");
     const modifiersElement = document.getElementById("modifiers");
     const clickButton = document.getElementById("clickButton");
-    const buyGeneratorButton = document.getElementById("buyGeneratorButton");
-    const buyModifierButton = document.getElementById("buyModifierButton");
-    const generatorProgress = document.getElementById("generatorProgress");
-    const modifierProgress = document.getElementById("modifierProgress");
-    
-    // Update score function
-    function updateScore() {
-      scoreElement.textContent = score;
-    }
-    
-    // Update generators function
-    function updateGenerators() {
-      generatorsElement.textContent = generators;
-      generatorProgress.style.width = ((score >= nextGeneratorCost) ? 100 : (score / nextGeneratorCost) * 100) + "%";
-    }
-    
-    // Update modifiers function
-    function updateModifiers() {
-      modifiersElement.textContent = modifiers;
-      modifierProgress.style.width = ((score >= nextModifierCost) ? 100 : (score / nextModifierCost) * 100) + "%";
-    }
-    
-    // Update costs function
-    function updateCosts() {
-      buyGeneratorButton.textContent = `Buy Generator (Cost: ${generatorCost})`;
-      buyModifierButton.textContent = `Buy Modifier (Cost: ${modifierCost})`;
-    }
-    
-    // Click event listener
-    clickButton.addEventListener("click", function() {
-      score += (modifiers + 1);
-      updateScore();
-    });
-    
-    // Buy generator event listener
-    buyGeneratorButton.addEventListener("click", function() {
-      if (score >= generatorCost) {
-        score -= generatorCost;
-        generators++;
-        generatorCost *= 1.2;
-        nextGeneratorCost = generatorCost.toFixed(0);
-        updateScore();
-        updateGenerators();
-        updateCosts();
-      }
-    });
-    
-    // Buy modifier event listener
-    buyModifierButton.addEventListener("click", function() {
-      if (score >= modifierCost) {
-        score -= modifierCost;
-        modifiers++;
-        modifierCost *= 1.5;
-        nextModifierCost = modifierCost.toFixed(0);
-        updateScore();
-        updateModifiers();
-        updateCosts();
-      }
-    });
-    
-    // Auto-generate score based on generators
-    let generatorInterval = setInterval(function() {
-      score += modifiers;
-      updateScore();
-    }, 100);
-    
-    // Update generator progress and cost
-    setInterval(function() {
-      generatorProgress.style.width = ((score >= nextGeneratorCost) ? 100 : (score / nextGeneratorCost) * 100) + "%";
-      modifierProgress.style.width = ((score >= nextModifierCost) ? 100 : (score / nextModifierCost) * 100) + "%";
-    }, 100);
-  </script>
-</body>
-</html>
+    const
