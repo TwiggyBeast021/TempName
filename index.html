@@ -3,13 +3,34 @@ html
 <html>
 <head>
   <title>Incremental Game</title>
+  <style>
+    .progress-bar {
+      width: 200px;
+      height: 20px;
+      background-color: #f3f3f3;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    
+    .progress-bar-fill {
+      height: 100%;
+      background-color: #4caf50;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
   <h1>Incremental Game</h1>
   
   <p>Score: <span id="score">0</span></p>
   <p>Generators: <span id="generators">0</span></p>
+  <div class="progress-bar">
+    <div id="generatorProgress" class="progress-bar-fill"></div>
+  </div>
   <p>Modifiers: <span id="modifiers">0</span></p>
+  <div class="progress-bar">
+    <div id="modifierProgress" class="progress-bar-fill"></div>
+  </div>
   
   <button id="clickButton">Click Me!</button>
   <button id="buyGeneratorButton">Buy Generator (Cost: 10)</button>
@@ -30,26 +51,30 @@ html
     const clickButton = document.getElementById("clickButton");
     const buyGeneratorButton = document.getElementById("buyGeneratorButton");
     const buyModifierButton = document.getElementById("buyModifierButton");
+    const generatorProgress = document.getElementById("generatorProgress");
+    const modifierProgress = document.getElementById("modifierProgress");
     
     // Update score function
     function updateScore() {
-      scoreElement.textContent = score;
+      scoreElement.textContent = score.toFixed(1);
     }
     
     // Update generators function
     function updateGenerators() {
-      generatorsElement.textContent = generators;
+      generatorsElement.textContent = generators.toFixed(1);
+      generatorProgress.style.width = (generators / 10) * 100 + "%";
     }
     
     // Update modifiers function
     function updateModifiers() {
-      modifiersElement.textContent = modifiers;
+      modifiersElement.textContent = modifiers.toFixed(1);
+      modifierProgress.style.width = (modifiers / 10) * 100 + "%";
     }
     
     // Update costs function
     function updateCosts() {
-      buyGeneratorButton.textContent = `Buy Generator (Cost: ${generatorCost})`;
-      buyModifierButton.textContent = `Buy Modifier (Cost: ${modifierCost})`;
+      buyGeneratorButton.textContent = `Buy Generator (Cost: ${generatorCost.toFixed(1)})`;
+      buyModifierButton.textContent = `Buy Modifier (Cost: ${modifierCost.toFixed(1)})`;
     }
     
     // Click event listener
