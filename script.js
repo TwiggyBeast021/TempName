@@ -13,9 +13,10 @@ let player = {
 
 // Enemies
 const enemies = [
-  { name: "Goblin", maxHealth: 50, attack: 10, experience: 20, dropRate: 0.5 },
-  { name: "Orc", maxHealth: 100, attack: 20, experience: 40, dropRate: 0.3 },
-  { name: "Dragon", maxHealth: 200, attack: 30, experience: 80, dropRate: 0.1 },
+  { name: "Slime", maxHealth: 20, attack: 5, experience: 10, dropRate: 0.5 },
+  { name: "Goblin", maxHealth: 30, attack: 8, experience: 15, dropRate: 0.3 },
+  { name: "Orc", maxHealth: 50, attack: 12, experience: 20, dropRate: 0.2 },
+  { name: "Dragon", maxHealth: 100, attack: 20, experience: 40, dropRate: 0.1 },
 ];
 
 // Inventory
