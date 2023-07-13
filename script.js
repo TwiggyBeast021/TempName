@@ -8,7 +8,7 @@ let playerStats = {
   constitution: 10,
   strength: 5,
   intelligence: 8,
-  speed: 2
+  speed: 6
 };
 
 let skills = {
@@ -132,27 +132,24 @@ function attack() {
   updateStats();
 }
 
-// Function to calculate critical hit chance based on intelligence
-function getCriticalHitChance() {
-  const baseCriticalHitChance = 0.15;
-  const intelligenceModifier = 0.01;
-  return baseCriticalHitChance + playerStats.intelligence * intelligenceModifier;
-}
-
-// Function to calculate attack damage based on strength
+// Function to calculate attack damage
 function calculateAttackDamage() {
   return playerStats.strength;
 }
 
-// Function to calculate attack speed based on speed
+// Function to calculate attack speed
 function calculateAttackSpeed() {
-  return playerStats.speed;
+  return playerStats.speed * 0.1;
 }
 
-// Function to calculate critical hit damage based on intelligence
+// Function to get critical hit chance
+function getCriticalHitChance() {
+  return playerStats.intelligence * 0.01 * skills.criticalHit.level;
+}
+
+// Function to calculate critical hit damage
 function calculateCriticalHitDamage() {
-  const baseCriticalHitDamage = 1.5;
-  return baseCriticalHitDamage + playerStats.intelligence * 0.1;
+  return calculateAttackDamage() * 1.5;
 }
 
 // Function to update skill progress bar
