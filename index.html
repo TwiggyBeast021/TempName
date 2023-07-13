@@ -8,25 +8,78 @@ html
   <h1>Incremental Game</h1>
   
   <p>Score: <span id="score">0</span></p>
+  <p>Generators: <span id="generators">0</span></p>
+  <p>Modifiers: <span id="modifiers">0</span></p>
+  
   <button id="clickButton">Click Me!</button>
+  <button id="buyGeneratorButton">Buy Generator (Cost: 10)</button>
+  <button id="buyModifierButton">Buy Modifier (Cost: 20)</button>
   
   <script>
-    // Initialize score
+    // Initialize variables
     let score = 0;
+    let generators = 0;
+    let modifiers = 0;
+    let generatorCost = 10;
+    let modifierCost = 20;
     
     // Get elements
     const scoreElement = document.getElementById("score");
+    const generatorsElement = document.getElementById("generators");
+    const modifiersElement = document.getElementById("modifiers");
     const clickButton = document.getElementById("clickButton");
+    const buyGeneratorButton = document.getElementById("buyGeneratorButton");
+    const buyModifierButton = document.getElementById("buyModifierButton");
     
     // Update score function
     function updateScore() {
       scoreElement.textContent = score;
     }
     
+    // Update generators function
+    function updateGenerators() {
+      generatorsElement.textContent = generators;
+    }
+    
+    // Update modifiers function
+    function updateModifiers() {
+      modifiersElement.textContent = modifiers;
+    }
+    
+    // Update costs function
+    function updateCosts() {
+      buyGeneratorButton.textContent = `Buy Generator (Cost: ${generatorCost})`;
+      buyModifierButton.textContent = `Buy Modifier (Cost: ${modifierCost})`;
+    }
+    
     // Click event listener
     clickButton.addEventListener("click", function() {
-      score++;
+      score += modifiers + 1;
       updateScore();
+    });
+    
+    // Buy generator event listener
+    buyGeneratorButton.addEventListener("click", function() {
+      if (score >= generatorCost) {
+        score -= generatorCost;
+        generators++;
+        generatorCost *= 1.2;
+        updateScore();
+        updateGenerators();
+        updateCosts();
+      }
+    });
+    
+    // Buy modifier event listener
+    buyModifierButton.addEventListener("click", function() {
+      if (score >= modifierCost) {
+        score -= modifierCost;
+        modifiers++;
+        modifierCost *= 1.5;
+        updateScore();
+        updateModifiers();
+        updateCosts();
+      }
     });
   </script>
 </body>
